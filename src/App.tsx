@@ -4,6 +4,7 @@ import { api, getSearchResults } from "./api";
 import Results from "./components/Results";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import "./App.css";
 
 interface IState {
   first_name?: string;
@@ -37,10 +38,12 @@ function App() {
     });
   };
 
-
   return (
     <div className="App">
-      <div className="w-[80%] mx-auto my-8">
+      <div className="w-[80%] mx-auto my-8 max-w-5xl">
+        <h1 className="text-4xl text-center font-semibold my-10">
+          Database Search
+        </h1>
         <div className="sm:grid grid-cols-2 gap-8">
           <div className="my-4 sm:my-0">
             <label htmlFor="" className="block font-medium mb-2">
@@ -95,19 +98,23 @@ function App() {
             />
           </div>
         </div>
-        <button
-          className="bg-blue-800 outline-none font-medium hover:bg-blue-900 text-white rounded-md py-2 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
-          onClick={() => refetch()}
-          disabled={
-            !state.first_name &&
-            !state.last_name &&
-            !state.email &&
-            !state.linkedin_username
-          }
-        >
-          Search
-        </button>
+        <div className="text-center md:text-right py-5">
+          <button
+            className="bg-blue-800 outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
+            onClick={() => refetch()}
+            disabled={
+              !state.first_name &&
+              !state.last_name &&
+              !state.email &&
+              !state.linkedin_username
+            }
+          >
+            Search
+          </button>
+        </div>
+
         <>
+        
           {(isLoading || isFetching) && (
             <div className="w-full sm:grid grid-cols-3 gap-6">
               <Skeleton height={200} />
@@ -119,7 +126,7 @@ function App() {
             </div>
           )}
           {isError && !isFetching && (
-            <div className="bg-red-200 p-2 text-center text-red-600 font-semibold rounded-md">
+            <div className="bg-red-100 p-5 text-center font-semibold text-red-600 font-semibold rounded-md">
               No Results found!
             </div>
           )}
@@ -127,6 +134,7 @@ function App() {
             <Results results={data.data} />
           )}
         </>
+        <hr className="my-8 h-px bg-gray-300 border-0" />
       </div>
     </div>
   );
