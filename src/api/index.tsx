@@ -12,4 +12,4 @@ export const api = axios.create({
 });
 
 export const getSearchResults = (parameters: IParameters) =>
-  api.post("/search", { ...parameters }).catch(console.log)
+  api.post("/search", { ...parameters });

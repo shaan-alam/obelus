@@ -37,6 +37,7 @@ function App() {
     });
   };
 
+
   return (
     <div className="App">
       <div className="w-[80%] mx-auto my-8">
@@ -117,7 +118,7 @@ function App() {
               <Skeleton height={200} />
             </div>
           )}
-          {isFetched && isError && !isFetching && (
+          {isError && !isFetching && (
             <div className="bg-red-200 p-2 text-center text-red-600 font-semibold rounded-md">
               No Results found!
             </div>
