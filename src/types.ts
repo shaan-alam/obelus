@@ -124,7 +124,10 @@ export interface Lead {
         inferred_years_experience?: string;
         summary?: string;
         phone_numbers: string[];
-        emails: string[];
+        emails: {
+            address: string;
+            type: string
+        }[],
         interests: string[];
         skills: string[];
         location_names: string[];
