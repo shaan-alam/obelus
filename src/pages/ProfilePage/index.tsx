@@ -13,10 +13,12 @@ const ProfilePage = () => {
     return str;
   };
 
-  const { isLoading, isFetching, isFetched, isError } = useQuery(
+  const { isLoading, isFetching } = useQuery(
     "search-id",
     () => getSingleLead(id as string),
     {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
       onSuccess: (results) => {
         setLead(results.data);
       },
