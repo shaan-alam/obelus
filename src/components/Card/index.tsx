@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { HiChevronDown, HiExternalLink } from "react-icons/hi";
-import { useSpring, animated } from "react-spring";
+import { Link } from "react-router-dom";
 import { Lead } from "../../types";
 
 const Card = ({ card: { data } }: { card: Lead }) => {
@@ -9,14 +9,6 @@ const Card = ({ card: { data } }: { card: Lead }) => {
   const capitalizeFirstLetter = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
-
-  // const openAnimation = useSpring({
-  //   from: { display: "none", maxHeight: "0px" },
-  //   to: {
-  //     display: isActive ? "block" : "none",
-  //     maxHeight: isActive ? "100%" : "0px",
-  //   },
-  // });
 
   return (
     <div
@@ -90,15 +82,17 @@ const Card = ({ card: { data } }: { card: Lead }) => {
               </div>
             </div>
 
-            <div className="flex justify-end">
-              <a
-                href="#!"
-                className="flex external_link mt-4 py-2 px-4 rounded-full text-gray-600 hover:bg-gray-200"
-              >
-                Open Full Page&nbsp;
-                <HiExternalLink size={20} />
-              </a>
-            </div>
+            <Link to={`/profile/${data.id}`}>
+              <div className="flex justify-end">
+                <a
+                  href="#!"
+                  className="flex external_link mt-4 py-2 px-4 rounded-full text-gray-600 hover:bg-gray-200"
+                >
+                  Open Full Page&nbsp;
+                  <HiExternalLink size={20} />
+                </a>
+              </div>
+            </Link>
           </div>
         </div>
       )}

@@ -15,3 +15,5 @@ export const api = axios.create({
 
 export const getSearchResults = (parameters: IParameters) =>
   api.post<APIResponse>("/search", { ...parameters });
+
+export const getSingleLead = (id: string) => api.get<Lead>(`/search/${id}`);
