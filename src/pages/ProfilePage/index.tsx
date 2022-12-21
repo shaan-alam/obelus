@@ -26,6 +26,7 @@ const ProfilePage = () => {
   return isLoading || isFetching ? (
     <section className="h-screen w-full flex items-center justify-center">
       <h1 className="text-3xl">LOADING</h1>
+      {/* todo: add a spinner icon */}
     </section>
   ) : (
     <section>
