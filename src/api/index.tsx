@@ -1,4 +1,6 @@
 import axios from "axios";
+import type { AxiosResponse } from "axios";
+import type { APIResponse, Lead } from "../types";
 
 interface IParameters {
   first_name?: string;
@@ -12,4 +14,4 @@ export const api = axios.create({
 });
 
 export const getSearchResults = (parameters: IParameters) =>
-  api.post("/search", { ...parameters });
+  api.post<APIResponse>("/search", { ...parameters });

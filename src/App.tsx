@@ -26,6 +26,9 @@ function App() {
     () => getSearchResults({ ...state }),
     {
       enabled: false,
+      onSuccess: (results) => {
+        // results.data[0].data.birth_date
+      },
     }
   );
 
@@ -114,19 +117,13 @@ function App() {
         </div>
 
         <>
-        
           {(isLoading || isFetching) && (
-            <div className="w-full sm:grid grid-cols-3 gap-6">
-              <Skeleton height={200} />
-              <Skeleton height={200} />
-              <Skeleton height={200} />
-              <Skeleton height={200} />
-              <Skeleton height={200} />
-              <Skeleton height={200} />
+            <div className="w-full">
+              <Skeleton count={3} height={100} />
             </div>
           )}
           {isError && !isFetching && (
-            <div className="bg-red-100 p-5 text-center font-semibold text-red-600 font-semibold rounded-md">
+            <div className="bg-red-100 p-5 text-center font-semibold text-red-600 rounded-md">
               No Results found!
             </div>
           )}

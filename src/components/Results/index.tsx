@@ -1,24 +1,18 @@
 import Card from "../Card";
 import { v4 } from "uuid";
+import { Lead } from "../../types";
 
 interface IResults {
-  results: {
-    data: {
-      first_name: string;
-      last_name: string;
-      email: string;
-      linkedin_username: string;
-    };
-  }[];
+  results: Lead[];
 }
 
 const Results = ({ results }: IResults) => {
   return (
     <div className="bg-white my-8">
       <h1 className="font-bold text-black text-lg mb-8">Results: </h1>
-      <div className="cards sm:grid grid-cols-3 gap-6">
+      <div className="cards">
         {results.map((result) => (
-          <Card card={result.data} key={v4()} />
+          <Card card={result} key={v4()} />
         ))}
       </div>
     </div>
