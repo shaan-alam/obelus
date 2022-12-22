@@ -1,12 +1,13 @@
 import axios from "axios";
-import type { AxiosResponse } from "axios";
 import type { APIResponse, Lead } from "../types";
+import type { Keyword } from "../pages/Home/types";
 
 interface IParameters {
   first_name?: string;
   last_name?: string;
   email?: string;
   linkedin_username?: string;
+  keywords: Keyword[];
 }
 
 export const api = axios.create({

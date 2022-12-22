@@ -5,14 +5,10 @@ import Results from "../../components/Results";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import spinner from "../../assets/spinner.svg";
+import { v4 } from "uuid";
 import "../../App.css";
-
-interface IState {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  linkedin_username?: string;
-}
+import KeywordInput from "../../components/KeywordInput";
+import type { IState } from "./types";
 
 function Home() {
   const [state, setState] = useState<IState>({
@@ -20,16 +16,39 @@ function Home() {
     last_name: "",
     email: "",
     linkedin_username: "",
+    keywords: [],
   });
+
+  const setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined = (
+    e
+  ) => {
+    if (e.target.value.endsWith(",")) {
+      const newKeyword = {
+        id: v4(),
+        text: e.target.value.substring(0, e.target.value.length - 1),
+      };
+
+      setState((state) => ({
+        ...state,
+        keywords: [...state.keywords, newKeyword],
+      }));
+
+      e.target.value = "";
+    }
+  };
+
+  const deleteKeyword = (id: string) =>
+    setState({
+      ...state,
+      keywords: state.keywords.filter((keyword) => keyword.id !== id),
+    });
 
   const { isLoading, isFetching, refetch, data, isFetched, isError } = useQuery(
     "search",
     () => getSearchResults({ ...state }),
     {
       enabled: false,
-      onSuccess: (results) => {
-        // results.data[0].data.birth_date
-      },
+      onSuccess: (results) => {},
     }
   );
 
@@ -101,6 +120,16 @@ function Home() {
               onChange={onChange}
             />
           </div>
+          <div className="my-4 sm:my-0">
+            <label htmlFor="" className="block font-medium mb-2">
+              Keywords
+            </label>
+            <KeywordInput
+              keywords={state.keywords}
+              setKeywords={setKeywords}
+              deleteKeyword={deleteKeyword}
+            />
+          </div>
         </div>
         <div className="flex justify-center md:justify-end py-5">
           <button
@@ -110,10 +139,14 @@ function Home() {
               !state.first_name &&
               !state.last_name &&
               !state.email &&
-              !state.linkedin_username
+              !state.linkedin_username &&
+              !state.keywords.length
             }
           >
-            {(isLoading || isFetching) && <img src={spinner} className="h-6 w-6 mr-2" />}Search
+            {(isLoading || isFetching) && (
+              <img src={spinner} className="h-6 w-6 mr-2" />
+            )}
+            Search
           </button>
         </div>
 
@@ -132,7 +165,6 @@ function Home() {
             <Results results={data.data} />
           )}
         </>
-        <hr className="my-8 h-px bg-gray-300 border-0" />
       </div>
     </div>
   );
