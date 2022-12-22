@@ -1,4 +1,30 @@
 
+
+
+export interface School {
+    name: string;
+    type: string;
+    id?: string;
+    location?: string;
+    linkedin_url?: string;
+    facebook_url?: string;
+    twitter_url?: string;
+    linkedin_id?: string;
+    website?: string;
+    domain?: string;
+}
+
+export interface Education {
+    school: School;
+    end_date: string;
+    start_date?: string;
+    gpa?: string;
+    degrees: string[];
+    majors: string[];
+    minors: string[];
+    summary?: string;
+}
+
 export interface Location {
     name: string;
     locality: string;
@@ -135,13 +161,15 @@ export interface Lead {
         countries: string[];
         street_addresses: string[];
         experience: Experience[];
-        education: string[];
+        education: Education[];
         profiles: Profile[];
         certifications: string[];
         languages: string[];
         version_status: VersionStatus;
     }
 }
+
+
 
 
 export type APIResponse = Lead[]

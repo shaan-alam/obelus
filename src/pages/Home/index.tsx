@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { api, getSearchResults } from "../../api";
+import { getSearchResults } from "../../api";
 import Results from "../../components/Results";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import spinner from "../../assets/spinner.svg";
 import "../../App.css";
 
 interface IState {
@@ -101,9 +102,9 @@ function Home() {
             />
           </div>
         </div>
-        <div className="text-center md:text-right py-5">
+        <div className="flex justify-center md:justify-end py-5">
           <button
-            className="bg-blue-800 outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
+            className="bg-blue-800 flex items-center justify-between outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
             onClick={() => refetch()}
             disabled={
               !state.first_name &&
@@ -112,7 +113,7 @@ function Home() {
               !state.linkedin_username
             }
           >
-            Search
+            {(isLoading || isFetching) && <img src={spinner} className="h-6 w-6 mr-2" />}Search
           </button>
         </div>
 
