@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, ProfilePage } from "./pages";
+import BarkPanel from "./components/BarkPanel";
+import { Home, ProfilePage, Bark } from "./pages";
 
 const App = () => {
   return (
@@ -8,6 +9,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile/:id" element={<ProfilePage />} />
+          <Route path="/bark" element={<Bark />}>
+            <Route index path="/bark/:id" element={<BarkPanel />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
