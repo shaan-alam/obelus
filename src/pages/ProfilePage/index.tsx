@@ -71,7 +71,7 @@ const ProfilePage = () => {
           <h1 className="text-gray-800 font-bold text-2xl my-4">
             General Details
           </h1>
-          <div className="grid grid-cols-4 gap-4">
+          <div className="sm:grid grid-cols-4 gap-4">
             <div className="text-gray-600">
               Full Name: {getValueOf(lead?.data?.full_name)}
             </div>
@@ -92,7 +92,7 @@ const ProfilePage = () => {
 
         <div className="block_content my-4 px-8 rounded-md">
           <h1 className="text-gray-800 font-bold text-2xl my-4">Socials</h1>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="sm:grid grid-cols-2 gap-4">
             <div className="text-gray-600">
               LinkedIn Username: {getValueOf(lead?.data.linkedin_username)}
             </div>

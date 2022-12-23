@@ -7,7 +7,7 @@ interface IParameters {
   last_name?: string;
   email?: string;
   linkedin_username?: string;
-  keywords: Keyword[];
+  keywords?: Keyword[];
 }
 
 export const api = axios.create({

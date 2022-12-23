@@ -1,15 +1,4 @@
-import { v4 } from "uuid";
-
-interface Keyword {
-  id: string;
-  text: string;
-}
-
-interface IProps {
-  keywords: Keyword[];
-  setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined;
-  deleteKeyword: (id: string) => void;
-}
+import type { Keyword, IProps } from "./types";
 
 const KeywordInput = ({ keywords, setKeywords, deleteKeyword }: IProps) => {
   return (

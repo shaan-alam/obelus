@@ -3,12 +3,12 @@ import { useQuery } from "react-query";
 import { getSearchResults } from "../../api";
 import Results from "../../components/Results";
 import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 import spinner from "../../assets/spinner.svg";
 import { v4 } from "uuid";
-import "../../App.css";
 import KeywordInput from "../../components/KeywordInput";
 import type { IState } from "./types";
+import "react-loading-skeleton/dist/skeleton.css";
+import "../../App.css";
 
 function Home() {
   const [state, setState] = useState<IState>({
