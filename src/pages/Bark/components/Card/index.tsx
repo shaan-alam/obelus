@@ -1,9 +1,8 @@
-import { HiLocationMarker, HiChat, HiCurrencyDollar } from "react-icons/hi";
+import { HiLocationMarker,  } from "react-icons/hi";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
 import { BarkLead } from "../../types";
 import { decodeToHTML } from "../../../../util";
-import Skeleton from "react-loading-skeleton";
 
 interface IProps {
   lead: BarkLead;
@@ -29,18 +28,7 @@ const Card = ({ lead, isActive, onClick }: IProps) => {
           <HiLocationMarker />
           &nbsp;{lead.city_string}, {lead.bark_country_name}
         </h6>
-        <h6 className="text-gray-500 mb-2 flex items-center">
-          <>
-            <HiChat />
-            &nbsp;<span className="text-black font-medium">Prefers: </span>
-            &nbsp; Email
-          </>
-        </h6>
         <h6 className="text-gray-500 mb-2">{decodeToHTML(lead.summary)}</h6>
-        <h6 className="text-gray-500 mb-2 flex items-center">
-          <HiCurrencyDollar />
-          &nbsp;{lead.credits_required} credits
-        </h6>
       </div>
     </Link>
   );

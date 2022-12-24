@@ -4,8 +4,8 @@ import { useQuery } from "react-query";
 import { getBarkData } from "../../api";
 import Card from "./components/Card";
 import { BarkLead } from "./types";
-import "./Bark.css";
 import Skeleton from "react-loading-skeleton";
+import "./Bark.css";
 
 const Bark = () => {
   const [activeID, setActive] = useState(0);

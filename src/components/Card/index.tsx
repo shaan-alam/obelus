@@ -29,13 +29,30 @@ const Card = ({ card: { data } }: { card: Lead }) => {
                   <li className="font-medium">
                     Email:&nbsp;
                     <span className="text-black font-normal">
-                      {data.emails[0] ? data.emails[0].address : "NA"}
+                      {data.emails[0]?.address || "NA"}
                     </span>
                   </li>
                   <li className="font-medium">
-                    LinkedIn Username:&nbsp;
+                    LinkedIn URL:&nbsp;
+                    <a
+                      className="text-blue-500 underline"
+                      href={
+                        data.linkedin_url.startsWith("http")
+                          ? data.linkedin_url
+                          : `https://${data.linkedin_url}`
+                      }
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      {data.linkedin_url.startsWith("http")
+                        ? data.linkedin_url
+                        : `https://${data.linkedin_url}`}
+                    </a>
+                  </li>
+                  <li className="font-medium">
+                    Phone:&nbsp;
                     <span className="text-black font-normal">
-                      {data.linkedin_username}
+                      {data.phone_numbers[0]}
                     </span>
                   </li>
                 </ul>
@@ -56,23 +73,6 @@ const Card = ({ card: { data } }: { card: Lead }) => {
                     <div className="field mb-2">
                       Gender: {capitalizeFirstLetter(data.gender)}
                     </div>
-                    <div className="field mb-2">
-                      LinkedIn URL:&nbsp;
-                      <a
-                        className="text-blue-500 underline"
-                        href={
-                          data.linkedin_url.startsWith("http")
-                            ? data.linkedin_url
-                            : `https://${data.linkedin_url}`
-                        }
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {data.linkedin_url.startsWith("http")
-                          ? data.linkedin_url
-                          : `https://${data.linkedin_url}`}
-                      </a>
-                    </div>
                   </div>
 
                   <div className="fields mb-2 block sm:grid grid-cols-2">
@@ -80,13 +80,9 @@ const Card = ({ card: { data } }: { card: Lead }) => {
                       Countries: {data.countries[0] ? data.countries[0] : "NA"}
                     </div>
                     <div className="field">
-                      Phone:{" "}
+                      Phone:&nbsp;
                       {data.phone_numbers[0] ? data.phone_numbers[0] : "NA"}
                     </div>
-                  </div>
-
-                  <div className="field mb-2">
-                    LinkedIn Username: {data.linkedin_username}
                   </div>
 
                   <div className="fields block sm:grid grid-cols-2 gap-y-2">
@@ -95,11 +91,15 @@ const Card = ({ card: { data } }: { card: Lead }) => {
                       {data.job_company_name ? data.job_company_name : "NA"}
                     </div>
                     <div className="field">
-                      Job Role:{" "}
+                      Job Title :&nbsp;
+                      {data.job_title ? data.job_title : "NA"}
+                    </div>
+                    <div className="field">
+                      Job Role:&nbsp;
                       {data.job_title_role ? data.job_title_role : "NA"}
                     </div>
                     <div className="field">
-                      Salary:{" "}
+                      Salary:&nbsp;
                       {data.inferred_salary ? data.inferred_salary : "NA"}
                     </div>
                   </div>

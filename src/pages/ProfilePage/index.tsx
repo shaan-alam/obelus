@@ -11,6 +11,7 @@ import {
   AccordionItem,
 } from "react-headless-accordion";
 import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
+import { v4 } from "uuid";
 
 const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -194,7 +195,7 @@ const ProfilePage = () => {
           </h1>
           <div className="text-gray-600 sm:grid grid-cols-2 gap-4">
             {lead?.data.experience.map((experience) => (
-              <Accordion className="my-8">
+              <Accordion className="my-8" key={v4()}>
                 <AccordionItem>
                   <AccordionHeader>
                     <h3 className="font-semibold text-lg flex items-center">

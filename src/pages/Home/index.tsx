@@ -17,6 +17,8 @@ function Home() {
     email: "",
     linkedin_username: "",
     keywords: [],
+    job_company_name: "",
+    job_company_website: "",
   });
 
   const setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined = (
@@ -48,7 +50,6 @@ function Home() {
     () => getSearchResults({ ...state }),
     {
       enabled: false,
-      onSuccess: (results) => {},
     }
   );
 
@@ -67,7 +68,7 @@ function Home() {
         <h1 className="text-4xl text-center font-semibold my-10">
           Database Search
         </h1>
-        <div className="sm:grid grid-cols-2 gap-8">
+        <div className="sm:grid grid-cols-3 gap-8">
           <div className="my-4 sm:my-0">
             <label htmlFor="" className="block font-medium mb-2">
               First Name
@@ -130,6 +131,32 @@ function Home() {
               deleteKeyword={deleteKeyword}
             />
           </div>
+          <div className="my-4 sm:my-0">
+            <label htmlFor="" className="block font-medium mb-2">
+              Company Name
+            </label>
+            <input
+              type="text"
+              placeholder="Company Name"
+              className="py-3 px-4 rounded-md outline-none border shadow w-full"
+              name="job_company_name"
+              value={state.job_company_name}
+              onChange={onChange}
+            />
+          </div>
+          <div className="my-4 sm:my-0">
+            <label htmlFor="" className="block font-medium mb-2">
+              Company Website
+            </label>
+            <input
+              type="text"
+              placeholder="www.yourwebsite.com"
+              className="py-3 px-4 rounded-md outline-none border shadow w-full"
+              name="job_company_website"
+              value={state.job_company_website}
+              onChange={onChange}
+            />
+          </div>
         </div>
         <div className="flex justify-center md:justify-end py-5">
           <button
@@ -140,7 +167,9 @@ function Home() {
               !state.last_name &&
               !state.email &&
               !state.linkedin_username &&
-              !state.keywords.length
+              !state.keywords.length &&
+              !state.job_company_name &&
+              !state.job_company_website
             }
           >
             {(isLoading || isFetching) && (
