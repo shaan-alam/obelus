@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { HiChevronDown } from "react-icons/hi";
 import { v4 } from "uuid";
 
 interface Country {
@@ -76,17 +77,19 @@ const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
           ))}
         </div>
       )}
-      <input
-        type="text"
-        className="multiselect_input outline-none w-full"
-        placeholder="Country"
-        onFocus={() => setIsActive(true)}
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
+      <div className="flex items-center justify-between w-full">
+        <input
+          type="text"
+          className="multiselect_input outline-none w-full"
+          placeholder="Country"
+          onFocus={() => setIsActive(true)}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </div>
       {isActive && (
         <div className="dropdown bg-white rounded-md my-2 shadow-md p-2 absolute top-[100%] left-0 z-1 h-[300px] overflow-y-auto w-full">
-          {options.map((option) => (
+          {items.map((option) => (
             <span
               key={v4()}
               className="select_option block cursor-pointer py-2 hover:bg-gray-100 px-2 rounded-md text-gray-800 hover:text-black"
