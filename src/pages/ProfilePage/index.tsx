@@ -215,7 +215,7 @@ const ProfilePage = () => {
                 <AccordionItem>
                   <AccordionHeader>
                     <h3 className="font-semibold text-lg flex items-center">
-                      {experience.company.name}&nbsp; <HiChevronDown />
+                      {experience.company?.name || ""}&nbsp; <HiChevronDown />
                     </h3>
                   </AccordionHeader>
                   <AccordionBody>
