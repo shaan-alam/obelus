@@ -6,11 +6,13 @@ import type { BarkLead } from "../pages/Bark/types";
 interface IParameters {
   first_name: string;
   last_name: string;
-  email: string;
+  countries: { name: string; code: string }[];
   linkedin_username: string;
-  keywords: Keyword[];
   job_company_name: string;
   job_company_website: string;
+  email: string;
+  phone: string;
+  keywords: Keyword[];
 }
 
 export const api = axios.create({

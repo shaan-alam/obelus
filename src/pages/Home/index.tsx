@@ -6,20 +6,14 @@ import Skeleton from "react-loading-skeleton";
 import spinner from "../../assets/spinner.svg";
 import { v4 } from "uuid";
 import KeywordInput from "../../components/KeywordInput";
-import type { IState } from "./types";
-import "react-loading-skeleton/dist/skeleton.css";
+import { initialState, IState } from "./types";
+import MultiSelect from "../../components/MultiSelect";
 import "../../App.css";
+import "react-loading-skeleton/dist/skeleton.css";
+import { countries } from "./data";
 
 function Home() {
-  const [state, setState] = useState<IState>({
-    first_name: "",
-    last_name: "",
-    email: "",
-    linkedin_username: "",
-    keywords: [],
-    job_company_name: "",
-    job_company_website: "",
-  });
+  const [state, setState] = useState<IState>(initialState);
 
   const setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined = (
     e
@@ -50,6 +44,7 @@ function Home() {
     () => getSearchResults({ ...state }),
     {
       enabled: false,
+      onSuccess: () => console.log(state),
     }
   );
 
@@ -101,7 +96,7 @@ function Home() {
             </label>
             <input
               type="text"
-              placeholder="johndoe@gmail.com"
+              placeholder="youremail@domain.com"
               className="py-3 px-4 rounded-md outline-none border shadow w-full"
               name="email"
               value={state.email}
@@ -119,16 +114,6 @@ function Home() {
               name="linkedin_username"
               value={state.linkedin_username}
               onChange={onChange}
-            />
-          </div>
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              Keywords
-            </label>
-            <KeywordInput
-              keywords={state.keywords}
-              setKeywords={setKeywords}
-              deleteKeyword={deleteKeyword}
             />
           </div>
           <div className="my-4 sm:my-0">
@@ -154,6 +139,49 @@ function Home() {
               className="py-3 px-4 rounded-md outline-none border shadow w-full"
               name="job_company_website"
               value={state.job_company_website}
+              onChange={onChange}
+            />
+          </div>
+          <div className="my-4 sm:my-0">
+            <label htmlFor="" className="block font-medium mb-2">
+              Keywords
+            </label>
+            <KeywordInput
+              keywords={state.keywords}
+              setKeywords={setKeywords}
+              deleteKeyword={deleteKeyword}
+            />
+          </div>
+          <div className="my-4 sm:my-0">
+            <label htmlFor="" className="block font-medium mb-2">
+              Country
+            </label>
+            <MultiSelect
+              options={countries}
+              values={state.countries}
+              onDelete={(countryCode) => {
+                setState({
+                  ...state,
+                  countries: state.countries.filter(
+                    (country) => country.code !== countryCode
+                  ),
+                });
+              }}
+              onSelect={(country) =>
+                setState({ ...state, countries: [...state.countries, country] })
+              }
+            />
+          </div>
+          <div className="my-4 sm:my-0">
+            <label htmlFor="" className="block font-medium mb-2">
+              Phone
+            </label>
+            <input
+              type="text"
+              placeholder="555-555-5555"
+              className="py-3 px-4 rounded-md outline-none border shadow w-full"
+              name="phone"
+              value={state.phone}
               onChange={onChange}
             />
           </div>
