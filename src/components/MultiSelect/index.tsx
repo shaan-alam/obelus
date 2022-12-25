@@ -16,25 +16,15 @@ interface Props {
 
 const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
   const [isActive, setIsActive] = useState(false);
-  const [selectedCountries, setSelectedCountries] = useState<
-    Array<{ name: string; code: string }>
-  >([]);
   const [query, setQuery] = useState("");
   const [items, setItems] = useState<typeof options>(options);
-
-  const addCountry = (country: { code: string; name: string }) => {
-    if (selectedCountries.indexOf(country) < 0) {
-      setSelectedCountries((countries) => [...countries, country]);
-    }
-  };
 
   useEffect(() => {
     const toggleDropdown = (e: any) => {
       if (
         !e.target.classList.contains("dropdown") &&
         !e.target.classList.contains("multiselect_input") &&
-        !e.target.classList.contains("select_option") &&
-        e.target.classList.contains("dropdown_toggler")
+        !e.target.classList.contains("select_option")
       ) {
         setIsActive(false);
       }
@@ -87,17 +77,6 @@ const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <span
-          onClick={() => setIsActive(!isActive)}
-          className="dropdown_toggler"
-        >
-          <HiChevronDown
-            size={25}
-            className={`block p-1 hover:bg-gray-200 rounded-full cursor-pointer transition-transform ${
-              isActive ? "rotate-180" : ""
-            }`}
-          />
-        </span>
       </div>
       {isActive && (
         <div className="dropdown bg-white rounded-md my-2 shadow-md p-2 absolute top-[100%] left-0 z-1 h-[300px] overflow-y-auto w-full">
