@@ -86,9 +86,20 @@ const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
+        <a href="#!" onClick={() => setIsActive(!isActive)}>
+          <HiChevronDown
+            size={25}
+            className={`block p-1 hover:bg-gray-200 rounded-full cursor-pointer transition-transform ${
+              isActive ? "rotate-180" : ""
+            }`}
+          />
+        </a>
       </div>
       {isActive && (
         <div className="dropdown bg-white rounded-md my-2 shadow-md p-2 absolute top-[100%] left-0 z-1 h-[300px] overflow-y-auto w-full">
+          {items.length === 0 && (
+            <p className="text-gray-600 text-center my-4">No Countries found!!</p>
+          )}
           {items.map((option) => (
             <span
               key={v4()}
