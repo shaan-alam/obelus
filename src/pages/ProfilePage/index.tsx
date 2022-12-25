@@ -92,6 +92,22 @@ const ProfilePage = () => {
         </div>
 
         <div className="block_content my-4 px-8 rounded-md">
+          <h1 className="text-gray-800 font-bold text-2xl my-4">
+            Contact Details
+          </h1>
+          <div className="text-gray-600 mb-2">
+            Emails:&nbsp;
+            {getEmails(
+              lead?.data.emails as { type: string; address: string }[]
+            )}
+          </div>
+          <div className="text-gray-600 mb-2">
+            Phone:&nbsp;
+            {getValueOf(lead?.data.phone_numbers)}
+          </div>
+        </div>
+
+        <div className="block_content my-4 px-8 rounded-md">
           <h1 className="text-gray-800 font-bold text-2xl my-4">Socials</h1>
           <div className="sm:grid grid-cols-2 gap-4">
             <div className="text-gray-600">
@@ -255,22 +271,6 @@ const ProfilePage = () => {
                 </AccordionItem>
               </Accordion>
             ))}
-          </div>
-        </div>
-
-        <div className="block_content my-4 px-8 rounded-md">
-          <h1 className="text-gray-800 font-bold text-2xl my-4">
-            Contact Details
-          </h1>
-          <div className="text-gray-600 mb-2">
-            Emails:&nbsp;
-            {getEmails(
-              lead?.data.emails as { type: string; address: string }[]
-            )}
-          </div>
-          <div className="text-gray-600 mb-2">
-            Phone:&nbsp;
-            {getValueOf(lead?.data.phone_numbers)}
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ import {
 
 const Card = ({ card: { data } }: { card: Lead }) => {
   const capitalizeFirstLetter = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+    return str !== null ? str.charAt(0).toUpperCase() + str.slice(1) : "";
   };
 
   return (
@@ -68,54 +68,56 @@ const Card = ({ card: { data } }: { card: Lead }) => {
             </AccordionHeader>
             <AccordionBody>
               <div className="accordian-content py-4 my-4 border-t">
-                <div className="text-gray-500">
-                  <div className="fields text-md w-full block sm:grid grid-cols-2">
-                    <div className="field mb-2">
-                      Gender: {capitalizeFirstLetter(data.gender)}
-                    </div>
+                <div className="text-gray-500 sm:grid grid-cols-2">
+                  <div className="mb-2">
+                    Gender: {capitalizeFirstLetter(data.gender)}
                   </div>
-
-                  <div className="fields mb-2 block sm:grid grid-cols-2">
-                    <div className="field">
-                      Countries: {data.countries[0] ? data.countries[0] : "NA"}
-                    </div>
-                    <div className="field">
-                      Phone:&nbsp;
-                      {data.phone_numbers[0] ? data.phone_numbers[0] : "NA"}
-                    </div>
+                  <div className="mb-2">
+                    Job Company Name:{" "}
+                    {capitalizeFirstLetter(data.job_company_name)}
                   </div>
-
-                  <div className="fields block sm:grid grid-cols-2 gap-y-2">
-                    <div className="field">
-                      Job Company Name:
-                      {data.job_company_name ? data.job_company_name : "NA"}
-                    </div>
-                    <div className="field">
-                      Job Title :&nbsp;
-                      {data.job_title ? data.job_title : "NA"}
-                    </div>
-                    <div className="field">
-                      Job Role:&nbsp;
-                      {data.job_title_role ? data.job_title_role : "NA"}
-                    </div>
-                    <div className="field">
-                      Salary:&nbsp;
-                      {data.inferred_salary ? data.inferred_salary : "NA"}
-                    </div>
+                  <div className="mb-2">
+                    Job Title: {capitalizeFirstLetter(data.job_title)}
                   </div>
-
-                  <Link to={`/profile/${data.id}`}>
-                    <div className="flex justify-end">
-                      <a
-                        href="#!"
-                        className="flex external_link mt-4 py-2 px-4 rounded-full text-gray-600 hover:bg-gray-200"
-                      >
-                        Open Full Page&nbsp;
-                        <HiExternalLink size={20} />
-                      </a>
-                    </div>
-                  </Link>
+                  <div className="mb-2">
+                    Job Role:{" "}
+                    {capitalizeFirstLetter(data?.job_title_role) || "NA"}
+                  </div>
+                  <div className="mb-2">
+                    Inferred Salary: {data.inferred_salary}
+                  </div>
                 </div>
+                <div className="text-gray-500 sm:grid grid-cols-2">
+                  <div className="mb-2">
+                    LinkedIn Connections: {data.linkedin_connections || "NA"}
+                  </div>
+                  <div className="mb-2">
+                    Twitter Username: {data.twitter_username}
+                  </div>
+                  <div className="mb-2">
+                    Facebook Username:{" "}
+                    {capitalizeFirstLetter(data.facebook_username)}
+                  </div>
+                  <div className="mb-2">
+                    GitHub Username:{" "}
+                    {capitalizeFirstLetter(data?.github_username) || "NA"}
+                  </div>
+                  <div className="mb-2">
+                    Country: {data.countries[0] ? data.countries[0] : "NA"}
+                  </div>
+                </div>
+
+                <Link to={`/profile/${data.id}`}>
+                  <div className="flex justify-end">
+                    <a
+                      href="#!"
+                      className="flex external_link mt-4 py-2 px-4 rounded-full text-gray-600 hover:bg-gray-200"
+                    >
+                      Open Full Page&nbsp;
+                      <HiExternalLink size={20} />
+                    </a>
+                  </div>
+                </Link>
               </div>
             </AccordionBody>
           </div>

@@ -96,7 +96,7 @@ function Home() {
             </label>
             <input
               type="text"
-              placeholder="youremail@domain.com"
+              placeholder="johndoe@domain.com"
               className="py-3 px-4 rounded-md outline-none border shadow w-full"
               name="email"
               value={state.email}
@@ -197,7 +197,9 @@ function Home() {
               !state.linkedin_username &&
               !state.keywords.length &&
               !state.job_company_name &&
-              !state.job_company_website
+              !state.job_company_website &&
+              state.countries.length <= 0 &&
+              !state.phone
             }
           >
             {(isLoading || isFetching) && (
