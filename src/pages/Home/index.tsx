@@ -19,20 +19,21 @@ function Home() {
   const { search } = useLocation();
   const page_number = search.split("=")[1];
 
+  const checkObjectHasValues = <T,>(obj: T) => {
+    return (
+      Object.values(obj as { [s: string]: unknown }).filter((field) => {
+        if (field instanceof Array && field.length > 0) {
+          return field;
+        } else if (!(field instanceof Array) && field) {
+          return field;
+        }
+      }).length !== 0
+    );
+  };
+
   useEffect(() => {
-    if (
-      state.first_name ||
-      state.last_name ||
-      state.email ||
-      state.linkedin_username ||
-      state.keywords.length > 0 ||
-      state.job_company_name ||
-      state.job_company_website ||
-      state.countries.length > 0 ||
-      state.phone
-    ) {
-      refetch();
-    }
+    if (checkObjectHasValues(state)) refetch();
+
     window.scrollTo({ top: 0 });
   }, [page_number]);
 
@@ -212,15 +213,13 @@ function Home() {
             className="bg-blue-800 flex items-center justify-between outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
             onClick={() => refetch()}
             disabled={
-              !state.first_name &&
-              !state.last_name &&
-              !state.email &&
-              !state.linkedin_username &&
-              !state.keywords.length &&
-              !state.job_company_name &&
-              !state.job_company_website &&
-              state.countries.length <= 0 &&
-              !state.phone
+              Object.values(state).filter((field) => {
+                if (field instanceof Array && field.length > 0) {
+                  return field;
+                } else if (!(field instanceof Array) && field) {
+                  return field;
+                }
+              }).length === 0
             }
           >
             {(isLoading || isFetching) && (
@@ -233,7 +232,7 @@ function Home() {
         <>
           {(isLoading || isFetching) && (
             <div className="w-full">
-              <Skeleton count={3} height={100} />
+              <Skeleton count={6} height={100} className="mb-4" />
             </div>
           )}
           {isError && !isFetching && (
@@ -244,10 +243,12 @@ function Home() {
           {isFetched && data && !isError && !isFetching && (
             <>
               <Results results={data.data} />
-              <Pagination
-                total_results={data?.data?.total_results as number}
-                currentPage={+page_number}
-              />
+              {data.data.total_results > 50 && (
+                <Pagination
+                  total_results={data?.data?.total_results as number}
+                  currentPage={+page_number || 1}
+                />
+              )}
             </>
           )}
         </>
