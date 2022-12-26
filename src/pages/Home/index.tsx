@@ -20,7 +20,19 @@ function Home() {
   const page_number = search.split("=")[1];
 
   useEffect(() => {
-    refetch();
+    if (
+      state.first_name ||
+      state.last_name ||
+      state.email ||
+      state.linkedin_username ||
+      state.keywords.length > 0 ||
+      state.job_company_name ||
+      state.job_company_website ||
+      state.countries.length > 0 ||
+      state.phone
+    ) {
+      refetch();
+    }
     window.scrollTo({ top: 0 });
   }, [page_number]);
 
@@ -54,7 +66,6 @@ function Home() {
       getSearchResults({ ...state, page_no: (page_number as string) || "1" }),
     {
       enabled: false,
-      onSuccess: () => console.log(state),
     }
   );
 
