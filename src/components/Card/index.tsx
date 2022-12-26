@@ -1,4 +1,3 @@
-import { useState, useContext, useEffect } from "react";
 import { HiChevronDown, HiExternalLink } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { Lead } from "../../types";
@@ -9,7 +8,7 @@ import {
   AccordionItem,
 } from "react-headless-accordion";
 import classNames from "classnames";
-import { Context } from "../../context";
+
 
 const Card = ({ card }: { card: Lead }) => {
   const { data } = card;
@@ -17,43 +16,15 @@ const Card = ({ card }: { card: Lead }) => {
     return str !== null ? str.charAt(0).toUpperCase() + str.slice(1) : "";
   };
 
-  const { selectedDocuments, setSelectedDocuments } = useContext(Context);
-  const [isSelected, setIsSelected] = useState(false);
-
-  useEffect(() => {
-    console.log(isSelected);
-  }, [isSelected]);
-
-  const onSelect: React.ChangeEventHandler<HTMLInputElement> | undefined = (
-    e
-  ) => {
-    if (isSelected) {
-      setSelectedDocuments((docs) =>
-        docs.filter((doc) => doc.data.id !== card.data.id)
-      );
-      setIsSelected(false);
-    } else {
-      setSelectedDocuments((docs) => [...docs, card]);
-      setIsSelected(true);
-    }
-  };
-
   return (
-    <div className="flex items-center">
+    <div className="flex items-center w-full">
       <label htmlFor="checkbox"></label>
-      <input
-        type="checkbox"
-        checked={isSelected}
-        onChange={onSelect}
-        id="checkbox"
-      />
       <Accordion className="w-full ml-4">
         <AccordionItem>
           {({ open }: { open: boolean }) => (
             <div
               className={classNames(
-                "my-6 card bg-white rounded-md py-6 px-8 border",
-                isSelected ? "bg-gray-200" : ""
+                "my-6 card bg-white rounded-md py-6 px-8 border"
               )}
             >
               <AccordionHeader className="w-full">
