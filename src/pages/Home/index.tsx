@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { getSearchResults } from "../../api";
 import Results from "../../components/Results";
@@ -8,12 +8,21 @@ import { v4 } from "uuid";
 import KeywordInput from "../../components/KeywordInput";
 import { initialState, IState } from "./types";
 import MultiSelect from "../../components/MultiSelect";
-import "../../App.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import { countries } from "./data";
+import Pagination from "../../components/Pagination";
+import { useLocation } from "react-router-dom";
 
 function Home() {
   const [state, setState] = useState<IState>(initialState);
+
+  const { search } = useLocation();
+  const page_number = search.split("=")[1];
+
+  useEffect(() => {
+    refetch();
+    window.scrollTo({ top: 0 });
+  }, [page_number]);
 
   const setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined = (
     e
@@ -41,7 +50,8 @@ function Home() {
 
   const { isLoading, isFetching, refetch, data, isFetched, isError } = useQuery(
     "search",
-    () => getSearchResults({ ...state }),
+    () =>
+      getSearchResults({ ...state, page_no: (page_number as string) || "1" }),
     {
       enabled: false,
       onSuccess: () => console.log(state),
@@ -221,7 +231,13 @@ function Home() {
             </div>
           )}
           {isFetched && data && !isError && !isFetching && (
-            <Results results={data.data} />
+            <>
+              <Results results={data.data} />
+              <Pagination
+                total_results={data?.data?.total_results as number}
+                currentPage={+page_number}
+              />
+            </>
           )}
         </>
       </div>

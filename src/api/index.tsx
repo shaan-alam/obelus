@@ -13,14 +13,22 @@ interface IParameters {
   email: string;
   phone: string;
   keywords: Keyword[];
+  page_no: string;
 }
 
 export const api = axios.create({
   baseURL: "https://project-x-ney5.onrender.com/",
 });
 
-export const getSearchResults = (parameters: IParameters) =>
-  api.post<APIResponse>("/search", { ...parameters });
+export const getSearchResults = (parameters: IParameters) => {
+  console.log(parameters.page_no);
+  return api.post<APIResponse>(
+    `/search?page_number=${+parameters.page_no - 1}`,
+    {
+      ...parameters,
+    }
+  );
+};
 
 export const getSingleLead = (id: string) => api.get<Lead>(`/search/${id}`);
 

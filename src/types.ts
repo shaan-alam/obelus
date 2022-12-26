@@ -169,4 +169,7 @@ export interface Lead {
 
 
 
-export type APIResponse = Lead[]
+export interface APIResponse {
+    results: Lead[],
+    total_results: number
+}

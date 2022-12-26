@@ -1,0 +1,36 @@
+import classNames from "classnames";
+import { Link } from "react-router-dom";
+
+const Pagination = ({
+  total_results,
+  currentPage,
+}: {
+  total_results: number;
+  currentPage: number;
+}) => {
+  const numberOfPages = Math.floor(total_results / 50);
+  const pages = new Array(numberOfPages).fill(0, 0, numberOfPages);
+
+  return (
+    <div className="pagination-container flex flex-col items-center w-full">
+      <p className="text-gray-600 mb-4">Pages: </p>
+      <div className="pagination flex flex-wrap w-3/4 text-center justify-center items-center">
+        {pages.map((_, index) => (
+          <Link to={`?page_no=${index + 1}`}>
+            <p
+              className={classNames(
+                "page-no h-10 w-10 rounded-md  transition-colors p-2 cursor-pointer mr-8 mb-4",
+                currentPage === index + 1
+                  ? "bg-blue-800 text-white hover:bg-blue-900"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+              )}
+            >
+              {index + 1}
+            </p>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
+export default Pagination;

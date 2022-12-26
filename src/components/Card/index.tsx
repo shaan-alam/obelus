@@ -52,7 +52,7 @@ const Card = ({ card: { data } }: { card: Lead }) => {
                   <li className="font-medium">
                     Phone:&nbsp;
                     <span className="text-black font-normal">
-                      {data.phone_numbers[0]}
+                      {data.phone_numbers[0] || "NA"}
                     </span>
                   </li>
                 </ul>
@@ -73,18 +73,18 @@ const Card = ({ card: { data } }: { card: Lead }) => {
                     Gender: {capitalizeFirstLetter(data.gender)}
                   </div>
                   <div className="mb-2">
-                    Job Company Name:{" "}
-                    {capitalizeFirstLetter(data.job_company_name)}
+                    Job Company Name:&nbsp;
+                    {capitalizeFirstLetter(data.job_company_name) || "NA"}
                   </div>
                   <div className="mb-2">
                     Job Title: {capitalizeFirstLetter(data.job_title)}
                   </div>
                   <div className="mb-2">
-                    Job Role:{" "}
+                    Job Role:&nbsp;
                     {capitalizeFirstLetter(data?.job_title_role) || "NA"}
                   </div>
                   <div className="mb-2">
-                    Inferred Salary: {data.inferred_salary}
+                    Inferred Salary: {data.inferred_salary || "NA"}
                   </div>
                 </div>
                 <div className="text-gray-500 sm:grid grid-cols-2">
@@ -92,11 +92,11 @@ const Card = ({ card: { data } }: { card: Lead }) => {
                     LinkedIn Connections: {data.linkedin_connections || "NA"}
                   </div>
                   <div className="mb-2">
-                    Twitter Username: {data.twitter_username}
+                    Twitter Username: {data.twitter_username || "NA"}
                   </div>
                   <div className="mb-2">
-                    Facebook Username:{" "}
-                    {capitalizeFirstLetter(data.facebook_username)}
+                    Facebook Username:&nbsp;
+                    {capitalizeFirstLetter(data.facebook_username) || "NA"}
                   </div>
                   <div className="mb-2">
                     GitHub Username:{" "}
