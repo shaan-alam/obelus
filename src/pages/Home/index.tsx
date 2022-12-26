@@ -12,15 +12,16 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { countries } from "./data";
 import Pagination from "../../components/Pagination";
 import { useLocation } from "react-router-dom";
+import { Lead } from "../../types";
 
 function Home() {
   const [state, setState] = useState<IState>(initialState);
 
   const { search } = useLocation();
   const page_number = search.split("=")[1];
-
+  
   const checkObjectHasValues = <T,>(obj: T) => {
-    return (
+  return (
       Object.values(obj as { [s: string]: unknown }).filter((field) => {
         if (field instanceof Array && field.length > 0) {
           return field;
