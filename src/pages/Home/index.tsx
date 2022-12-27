@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { getSearchResults } from "../../api";
+import { downloadResults, getSearchResults } from "../../api";
 import Results from "../../components/Results";
 import Skeleton from "react-loading-skeleton";
 import spinner from "../../assets/spinner.svg";
+import spinnerDark from "../../assets/spinner-dark.svg";
 import { v4 } from "uuid";
 import KeywordInput from "../../components/KeywordInput";
 import { initialState, IState } from "./types";
@@ -12,16 +13,24 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { countries } from "./data";
 import Pagination from "../../components/Pagination";
 import { useLocation } from "react-router-dom";
+import { AxiosError } from "axios";
 import { Lead } from "../../types";
+import { exportJSONDocuments } from "../../util";
+import classNames from "classnames";
+
+// TODO: refactor the code
 
 function Home() {
   const [state, setState] = useState<IState>(initialState);
+  const [error, setError] = useState<{ status: number; text: string } | null>(
+    null
+  );
 
   const { search } = useLocation();
   const page_number = search.split("=")[1];
-  
+
   const checkObjectHasValues = <T,>(obj: T) => {
-  return (
+    return (
       Object.values(obj as { [s: string]: unknown }).filter((field) => {
         if (field instanceof Array && field.length > 0) {
           return field;
@@ -62,12 +71,31 @@ function Home() {
       keywords: state.keywords.filter((keyword) => keyword.id !== id),
     });
 
+  const { refetch: download, isLoading: isDownloading } = useQuery(
+    ["download-data"],
+    () => downloadResults(state),
+    {
+      enabled: false,
+      onSuccess: (results) => {
+        exportJSONDocuments<Lead[]>(results.data);
+      },
+    }
+  );
+
   const { isLoading, isFetching, refetch, data, isFetched, isError } = useQuery(
     "search",
     () =>
       getSearchResults({ ...state, page_no: (page_number as string) || "1" }),
     {
       enabled: false,
+      onError: (err) => {
+        const error = err as AxiosError;
+        if (error?.response?.status === 507) {
+          setError({ status: 507, text: "Exceeded Limit" });
+        } else if (error?.response?.status === 404) {
+          setError({ status: 404, text: "No Results Found!" });
+        }
+      },
     }
   );
 
@@ -79,6 +107,11 @@ function Home() {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    // set error to null if another request is made
+    if (isLoading) setError(null);
+  }, [isLoading]);
 
   return (
     <div className="App">
@@ -213,15 +246,7 @@ function Home() {
           <button
             className="bg-blue-800 flex items-center justify-between outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
             onClick={() => refetch()}
-            disabled={
-              Object.values(state).filter((field) => {
-                if (field instanceof Array && field.length > 0) {
-                  return field;
-                } else if (!(field instanceof Array) && field) {
-                  return field;
-                }
-              }).length === 0
-            }
+            disabled={!checkObjectHasValues(state)}
           >
             {(isLoading || isFetching) && (
               <img src={spinner} className="h-6 w-6 mr-2" />
@@ -236,9 +261,23 @@ function Home() {
               <Skeleton count={6} height={100} className="mb-4" />
             </div>
           )}
-          {isError && !isFetching && (
-            <div className="bg-red-100 p-5 text-center font-semibold text-red-600 rounded-md">
-              No Results found!
+          {error?.status && !isFetching && (
+            <div className="bg-red-100 flex items-center p-8 text-center font-semibold text-red-600 rounded-md">
+              <p>{error.text}</p>
+              {error.status === 507 && (
+                <button
+                  className={classNames(
+                    "ml-4 underline flex items-center",
+                    isDownloading
+                      ? "no-underline text-gray-600 cursor-default"
+                      : ""
+                  )}
+                  onClick={() => download()}
+                >
+                  {isDownloading && <img src={spinnerDark} />}
+                  {isDownloading ? "Downloading..." : "Download Results"}
+                </button>
+              )}
             </div>
           )}
           {isFetched && data && !isError && !isFetching && (
@@ -246,7 +285,7 @@ function Home() {
               <Results results={data.data} />
               {data.data.total_results > 50 && (
                 <Pagination
-                  total_results={data?.data?.total_results as number}
+                  total_results={data?.data.total_results as number}
                   currentPage={+page_number || 1}
                 />
               )}

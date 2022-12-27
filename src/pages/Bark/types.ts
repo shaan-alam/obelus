@@ -1,3 +1,5 @@
+import { Lead } from "../../types"
+
 export interface BarkLead {
   bark_country_id: number
   bark_country_name: string
@@ -58,6 +60,7 @@ export interface BarkLead {
   is_contact_pref_type_phone: boolean
   is_contact_pref_type_sms: boolean
   is_top_opportunity: boolean
+  matches: Lead[]
 }
 
 export interface CustomField {

@@ -25,7 +25,7 @@ const Bark = () => {
   return (
     <section>
       <div className="flex">
-        <div className="sidebar w-[30%] h-screen overflow-y-auto border-r">
+        <div className="sidebar w-[33.33%] h-screen overflow-y-auto border-r">
           <ul>
             {isLoading || isFetching ? (
               <Skeleton height={200} count={5} />
@@ -42,7 +42,7 @@ const Bark = () => {
             )}
           </ul>
         </div>
-        <div className="main-panel-container px-12 py-8">
+        <div className="main-panel-container w-[67%]">
           <Outlet />
         </div>
       </div>
