@@ -46,8 +46,11 @@ const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
       {values.length > 0 && (
         <div className="flex flex-wrap">
           {values.map((country) => (
-            <div className="tag bg-gray-300 font-normal text-gray-600 mr-1 p-1 rounded-md text-sm mb-1">
-              <p key={v4()}>
+            <div
+              className="tag bg-gray-300 font-normal text-gray-600 mr-1 p-1 rounded-md text-sm mb-1"
+              key={v4()}
+            >
+              <p>
                 {country}&nbsp;
                 <span
                   className="inline text-lg cursor-pointer"
@@ -74,7 +77,7 @@ const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
         <div className="dropdown bg-white rounded-md my-2 shadow-md p-2 absolute top-[100%] left-0 z-[100] h-[300px] overflow-y-auto w-full">
           {items.length === 0 && (
             <p className="text-gray-600 text-center my-4">
-              No Countries found!!
+              No Results found!!
             </p>
           )}
           {items.map((option) => (

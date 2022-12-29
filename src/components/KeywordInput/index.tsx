@@ -1,6 +1,32 @@
-import type { Keyword, IProps } from "./types";
+import type { IProps } from "./types";
+import { v4 } from "uuid";
 
-const KeywordInput = ({ keywords, setKeywords, deleteKeyword }: IProps) => {
+const KeywordInput = ({ keywords, setState }: IProps) => {
+  const setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined = (
+    e
+  ) => {
+    if (e.target.value.endsWith(",")) {
+      const newKeyword = {
+        id: v4(),
+        text: e.target.value.substring(0, e.target.value.length - 1),
+      };
+
+      setState((state) => ({
+        ...state,
+        keywords: [...state.keywords, newKeyword],
+      }));
+
+      e.target.value = "";
+    }
+  };
+
+  const deleteKeyword = (id: string) => {
+    setState((state) => ({
+      ...state,
+      keywords: state.keywords.filter((keyword) => keyword.id !== id),
+    }));
+  };
+
   return (
     <div className="tag-input flex flex-wrap items-center bg-white rounded-md outline-none border shadow w-full">
       {keywords?.map((keyword) => (

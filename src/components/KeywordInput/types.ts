@@ -1,3 +1,5 @@
+import { IState } from "../../pages/Home/types";
+
 export interface Keyword {
   id: string;
   text: string;
@@ -5,6 +7,5 @@ export interface Keyword {
 
 export interface IProps {
   keywords: Keyword[];
-  setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined;
-  deleteKeyword: (id: string) => void;
+  setState: React.Dispatch<React.SetStateAction<IState>>
 }

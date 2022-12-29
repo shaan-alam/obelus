@@ -1,4 +1,14 @@
-
+export const checkObjectHasValues = <T,>(obj: T) => {
+  return (
+    Object.values(obj as { [s: string]: unknown }).filter((field) => {
+      if (field instanceof Array && field.length > 0) {
+        return field;
+      } else if (!(field instanceof Array) && field) {
+        return field;
+      }
+    }).length !== 0
+  );
+};
 
 export const decodeToHTML = (str: string) => {
   let txt = new DOMParser().parseFromString(str, "text/html");

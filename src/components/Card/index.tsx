@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { HiChevronDown, HiExternalLink } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import { Lead } from "../../types";
+import { Lead } from "types";
 import {
   Accordion,
   AccordionBody,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useQuery } from "react-query";
-import { getBarkData } from "../../api";
+import { getBarkData } from "api";
 import Card from "./components/Card";
 import { BarkLead } from "./types";
 import Skeleton from "react-loading-skeleton";

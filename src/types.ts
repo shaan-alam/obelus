@@ -166,10 +166,7 @@ export interface Lead {
     }
 }
 
-
-
-
-export interface APIResponse {
+export interface ILeadResponse {
     results: Lead[],
     total_results: number
 }

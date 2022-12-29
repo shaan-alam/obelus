@@ -1,22 +1,15 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "react-query";
-import { downloadResults, getSearchResults } from "../../api";
-import Results from "../../components/Results";
 import Skeleton from "react-loading-skeleton";
-import spinner from "../../assets/spinner.svg";
-import spinnerDark from "../../assets/spinner-dark.svg";
-import { v4 } from "uuid";
-import KeywordInput from "../../components/KeywordInput";
-import { initialState, IState } from "./types";
-import MultiSelect from "../../components/MultiSelect";
-import "react-loading-skeleton/dist/skeleton.css";
-import { countries } from "./data";
-import Pagination from "../../components/Pagination";
 import { useLocation } from "react-router-dom";
 import { AxiosError } from "axios";
-import { Lead } from "../../types";
-import { exportJSONDocuments } from "../../util";
 import classNames from "classnames";
+import "react-loading-skeleton/dist/skeleton.css";
+import { spinner, spinnerDark } from "assets";
+import { initialState, IState } from "./types";
+import { Results, KeywordInput, MultiSelect, Pagination } from "components";
+import { countries } from "./data";
+import { checkObjectHasValues } from "util/";
+import { useLeads, useDownloadLeads } from "hooks";
 
 // TODO: refactor the code
 const companies = ["youtube", "google", "apple", "microsoft"];
@@ -30,72 +23,33 @@ function Home() {
   const { search } = useLocation();
   const page_number = search.split("=")[1];
 
-  const checkObjectHasValues = <T,>(obj: T) => {
-    return (
-      Object.values(obj as { [s: string]: unknown }).filter((field) => {
-        if (field instanceof Array && field.length > 0) {
-          return field;
-        } else if (!(field instanceof Array) && field) {
-          return field;
-        }
-      }).length !== 0
-    );
-  };
-
   useEffect(() => {
     if (checkObjectHasValues(state)) refetch();
 
     window.scrollTo({ top: 0 });
   }, [page_number]);
 
-  const setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined = (
-    e
-  ) => {
-    if (e.target.value.endsWith(",")) {
-      const newKeyword = {
-        id: v4(),
-        text: e.target.value.substring(0, e.target.value.length - 1),
-      };
-
-      setState((state) => ({
-        ...state,
-        keywords: [...state.keywords, newKeyword],
-      }));
-
-      e.target.value = "";
-    }
-  };
-
-  const deleteKeyword = (id: string) =>
-    setState({
-      ...state,
-      keywords: state.keywords.filter((keyword) => keyword.id !== id),
-    });
-
-  const { refetch: download, isLoading: isDownloading } = useQuery(
-    ["download-data"],
-    () => downloadResults(state),
-    {
+  const { download, isDownloading } = useDownloadLeads({
+    state,
+    options: {
       enabled: false,
-      onSuccess: (results) => {
-        exportJSONDocuments<Lead[]>(results.data);
-      },
-    }
-  );
+    },
+  });
 
-  const { isLoading, isFetching, refetch, data, isFetched, isError } = useQuery(
-    "search",
-    () =>
-      getSearchResults({ ...state, page_no: (page_number as string) || "1" }),
+  const { isLoading, isFetching, refetch, data, isFetched, isError } = useLeads(
     {
-      enabled: false,
-      onError: (err) => {
-        const error = err as AxiosError;
-        if (error?.response?.status === 507) {
-          setError({ status: 507, text: "Exceeded Limit" });
-        } else if (error?.response?.status === 404) {
-          setError({ status: 404, text: "No Results Found!" });
-        }
+      state: { ...state, page_no: page_number || "1" },
+      options: {
+        enabled: false,
+        onError: (err) => {
+          const error = err as AxiosError;
+          console.log("error status code", error.response?.status);
+          if (error?.response?.status === 507) {
+            setError({ status: 507, text: "Exceeded Limit" });
+          } else if (error?.response?.status === 404) {
+            setError({ status: 404, text: "No Results Found!" });
+          }
+        },
       },
     }
   );
@@ -210,11 +164,7 @@ function Home() {
             <label htmlFor="" className="block font-medium mb-2">
               Keywords
             </label>
-            <KeywordInput
-              keywords={state.keywords}
-              setKeywords={setKeywords}
-              deleteKeyword={deleteKeyword}
-            />
+            <KeywordInput keywords={state.keywords} setState={setState} />
           </div>
           <div className="my-4 sm:my-0">
             <label htmlFor="" className="block font-medium mb-2">
@@ -290,10 +240,10 @@ function Home() {
           )}
           {isFetched && data && !isError && !isFetching && (
             <>
-              <Results results={data.data} />
-              {data.data.total_results > 50 && (
+              <Results results={data} />
+              {data.total_results > 50 && (
                 <Pagination
-                  total_results={data?.data.total_results as number}
+                  total_results={data?.total_results}
                   currentPage={+page_number || 1}
                 />
               )}

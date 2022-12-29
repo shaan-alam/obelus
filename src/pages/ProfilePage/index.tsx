@@ -1,17 +1,10 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
-import { getSingleLead } from "../../api";
-import { Lead } from "../../types";
-import spinner from "../../assets/spinner-dark.svg";
-import {
-  Accordion,
-  AccordionBody,
-  AccordionHeader,
-  AccordionItem,
-} from "react-headless-accordion";
-import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
-import { v4 } from "uuid";
+import { getSingleLead } from "api";
+import { Lead } from "types";
+import { spinner } from "assets";
+import { HiChevronLeft } from "react-icons/hi";
 
 const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
