@@ -30,7 +30,7 @@ const Modal = ({
         <div className="fixed inset-0 flex items-center justify-center p-4 bg-gray-500 bg-opacity-20">
           <Dialog.Panel className="rounded-lg bg-white shadow-2xl w-[800px]">
             <Dialog.Title className="flex items-center justify-between bg-gray-50 font-semibold p-4 border-b rounded-tl-md rounded-tr-md text-center text-lg">
-              {title}
+              <h1 className="ml-9">{title}</h1>
               <span
                 className="text-gray-600 bg-gray-100 p-4 rounded-full hover:bg-gray-200 hover:text-gray-800 transition-colors cursor-pointer"
                 onClick={() => setIsOpen(false)}

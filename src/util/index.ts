@@ -11,7 +11,7 @@ export const exportJSONDocuments = <T, >(data: T) => {
     )}`;
     const link = document.createElement("a");
     link.href = jsonString;
-    link.download = `${v4()}.json`;
+    link.download = "export.json";
     link.click();
   };
 
@@ -21,6 +21,6 @@ export const exportCSVDocument = (csvString: string) => {
     hiddenElement.target = '_blank';  
       
     //provide the name for the CSV file to be downloaded  
-    hiddenElement.download = `${v4}.csv`  
+    hiddenElement.download = "export.csv"  
     hiddenElement.click();  
 }

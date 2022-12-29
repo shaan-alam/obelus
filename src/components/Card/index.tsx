@@ -28,7 +28,7 @@ const Card = ({ card }: { card: Lead }) => {
             <AccordionHeader className="w-full">
               <div className="accordian-body flex items-center justify-between w-full pb-4">
                 <ul className="text-black text-left">
-                  <li className="mb-2 font-bold text-xl">
+                  <li className="mb-4 font-bold text-xl">
                     {capitalizeFirstLetter(data?.first_name)}&nbsp;
                     {capitalizeFirstLetter(data?.last_name)}
                   </li>
@@ -75,41 +75,43 @@ const Card = ({ card }: { card: Lead }) => {
             <AccordionBody>
               <div className="accordian-content py-4 my-4 border-t">
                 <div className="text-gray-500 sm:grid grid-cols-2">
-                  <div className="mb-2">
-                    Gender: {capitalizeFirstLetter(data.gender)}
+                  <div className="col">
+                    <div className="mb-4">
+                      Gender: {capitalizeFirstLetter(data.gender)}
+                    </div>
+                    <div className="mb-4">
+                      Job Company Name:&nbsp;
+                      {capitalizeFirstLetter(data.job_company_name) || "NA"}
+                    </div>
+                    <div className="mb-4">
+                      Job Title: {capitalizeFirstLetter(data.job_title)}
+                    </div>
+                    <div className="mb-4">
+                      Job Role:&nbsp;
+                      {capitalizeFirstLetter(data?.job_title_role) || "NA"}
+                    </div>
+                    <div className="mb-4">
+                      Inferred Salary: {data.inferred_salary || "NA"}
+                    </div>
                   </div>
-                  <div className="mb-2">
-                    Job Company Name:&nbsp;
-                    {capitalizeFirstLetter(data.job_company_name) || "NA"}
-                  </div>
-                  <div className="mb-2">
-                    Job Title: {capitalizeFirstLetter(data.job_title)}
-                  </div>
-                  <div className="mb-2">
-                    Job Role:&nbsp;
-                    {capitalizeFirstLetter(data?.job_title_role) || "NA"}
-                  </div>
-                  <div className="mb-2">
-                    Inferred Salary: {data.inferred_salary || "NA"}
-                  </div>
-                </div>
-                <div className="text-gray-500 sm:grid grid-cols-2">
-                  <div className="mb-2">
-                    LinkedIn Connections: {data.linkedin_connections || "NA"}
-                  </div>
-                  <div className="mb-2">
-                    Twitter Username: {data.twitter_username || "NA"}
-                  </div>
-                  <div className="mb-2">
-                    Facebook Username:&nbsp;
-                    {capitalizeFirstLetter(data.facebook_username) || "NA"}
-                  </div>
-                  <div className="mb-2">
-                    GitHub Username:&nbsp;
-                    {capitalizeFirstLetter(data?.github_username) || "NA"}
-                  </div>
-                  <div className="mb-2">
-                    Country: {data.countries[0] ? data.countries[0] : "NA"}
+                  <div className="col">
+                    <div className="mb-4">
+                      LinkedIn Connections: {data.linkedin_connections || "NA"}
+                    </div>
+                    <div className="mb-4">
+                      Twitter Username: {data.twitter_username || "NA"}
+                    </div>
+                    <div className="mb-4">
+                      Facebook Username:&nbsp;
+                      {capitalizeFirstLetter(data.facebook_username) || "NA"}
+                    </div>
+                    <div className="mb-4">
+                      GitHub Username:&nbsp;
+                      {capitalizeFirstLetter(data?.github_username) || "NA"}
+                    </div>
+                    <div className="mb-4">
+                      Country: {data.countries[0] ? data.countries[0] : "NA"}
+                    </div>
                   </div>
                 </div>
                 <Link to={`/profile/${data.id}`}>
