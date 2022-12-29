@@ -9,10 +9,10 @@ import { initialState, IState } from "./types";
 import { Results, KeywordInput, MultiSelect, Pagination } from "components";
 import { countries } from "./data";
 import { checkObjectHasValues, exportJSONDocuments } from "util/";
-import { useLeads, useDownloadLeads } from "hooks";
+import { useLeads } from "hooks";
 import { Lead } from "types";
 import { useQuery } from "react-query";
-import { getSearchResults } from "api";
+import { downloadResults, getSearchResults } from "api";
 
 // TODO: refactor the code
 const companies = ["youtube", "google", "apple", "microsoft"];
@@ -32,16 +32,16 @@ function Home() {
     window.scrollTo({ top: 0 });
   }, [page_number]);
 
-  const { download, isDownloading } = useDownloadLeads({
-    state,
-    options: {
+  const { refetch: download, isLoading: isDownloading } = useQuery(
+    ["download-data"],
+    () => downloadResults(state),
+    {
       enabled: false,
-      onSuccess: ({ results }) => {
-        exportJSONDocuments<Lead[]>(results);
+      onSuccess: (results) => {
+        exportJSONDocuments<Lead[]>(results.data);
       },
-    },
-  });
-
+    }
+  );
   const { isLoading, isFetching, refetch, data, isFetched, isError } = useQuery(
     "search",
     () =>

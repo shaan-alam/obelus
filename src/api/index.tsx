@@ -23,9 +23,7 @@ export const getBarkData = () => api.get<BarkLead[]>("/leads");
 export const getSingleBarkData = (project_id: string) =>
   api.get<BarkLead>(`/leads/${project_id}`);
 
-export const downloadResults = (
-  data: Omit<IParameters, "page_no">
-): Promise<ILeadResponse> =>
+export const downloadResults = (data: Omit<IParameters, "page_no">) =>
   api.post("/download", {
     ...data,
   });
