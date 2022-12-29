@@ -11,6 +11,8 @@ import { countries } from "./data";
 import { checkObjectHasValues, exportJSONDocuments } from "util/";
 import { useLeads, useDownloadLeads } from "hooks";
 import { Lead } from "types";
+import { useQuery } from "react-query";
+import { getSearchResults } from "api";
 
 // TODO: refactor the code
 const companies = ["youtube", "google", "apple", "microsoft"];
@@ -40,20 +42,19 @@ function Home() {
     },
   });
 
-  const { isLoading, isFetching, refetch, data, isFetched, isError } = useLeads(
+  const { isLoading, isFetching, refetch, data, isFetched, isError } = useQuery(
+    "search",
+    () =>
+      getSearchResults({ ...state, page_no: (page_number as string) || "1" }),
     {
-      state: { ...state, page_no: page_number || "1" },
-      options: {
-        enabled: false,
-        onError: (err) => {
-          const error = err as AxiosError;
-          console.log("error status code", error.response?.status);
-          if (error?.response?.status === 507) {
-            setError({ status: 507, text: "Exceeded Limit" });
-          } else if (error?.response?.status === 404) {
-            setError({ status: 404, text: "No Results Found!" });
-          }
-        },
+      enabled: false,
+      onError: (err) => {
+        const error = err as AxiosError;
+        if (error?.response?.status === 507) {
+          setError({ status: 507, text: "Exceeded Limit" });
+        } else if (error?.response?.status === 404) {
+          setError({ status: 404, text: "No Results Found!" });
+        }
       },
     }
   );
@@ -244,10 +245,10 @@ function Home() {
           )}
           {isFetched && data && !isError && !isFetching && (
             <>
-              <Results results={data} />
-              {data.total_results > 50 && (
+              <Results results={data.data} />
+              {data.data.total_results > 50 && (
                 <Pagination
-                  total_results={data?.total_results}
+                  total_results={data?.data.total_results}
                   currentPage={+page_number || 1}
                 />
               )}

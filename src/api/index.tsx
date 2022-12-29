@@ -11,10 +11,8 @@ export const api = axios.create({
   baseURL: "https://project-x-ney5.onrender.com/",
 });
 
-export const getSearchResults = async (
-  parameters: IParameters
-): Promise<ILeadResponse> =>
-  await api.post(`/search?page_number=${+parameters.page_no - 1}`, {
+export const getSearchResults = (parameters: IParameters) =>
+  api.post(`/search?page_number=${+parameters.page_no - 1}`, {
     ...parameters,
   });
 
