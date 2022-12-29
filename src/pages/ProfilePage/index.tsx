@@ -72,21 +72,24 @@ const ProfilePage = () => {
           <h1 className="text-gray-800 font-bold text-2xl my-4">
             General Details
           </h1>
-          <div className="sm:grid grid-cols-4 gap-4">
-            <div className="text-gray-600">
+          <div className="sm:grid grid-cols-3 gap-4">
+            <div className="text-gray-600 mb-2 sm:mb-0">
               Full Name: {getValueOf(lead?.data?.full_name)}
             </div>
-            <div className="text-gray-600">
+            <div className="text-gray-600 mb-2 sm:mb-0">
+              Gender: {getValueOf(lead?.data.gender)}
+            </div>
+            <div className="text-gray-600 mb-2 sm:mb-0">
+              DOB: {getValueOf(lead?.data.birth_date)}
+            </div>
+            <div className="text-gray-600 mb-2 sm:mb-0">
               First Name: {getValueOf(lead?.data.first_name)}
             </div>
-            <div className="text-gray-600">
-              Middle Name: {getValueOf(lead?.data.middle_name)}
-            </div>
-            <div className="text-gray-600">
+            <div className="text-gray-600 mb-2 sm:mb-0">
               Last Name: {getValueOf(lead?.data.last_name)}
             </div>
-            <div className="text-gray-600">
-              Gender: {getValueOf(lead?.data.gender)}
+            <div className="text-gray-600 mb-2 sm:mb-0">
+              Middle Name: {getValueOf(lead?.data.middle_name)}
             </div>
           </div>
         </div>
@@ -95,32 +98,45 @@ const ProfilePage = () => {
           <h1 className="text-gray-800 font-bold text-2xl my-4">
             Contact Details
           </h1>
-          <div className="text-gray-600 mb-2">
-            Emails:&nbsp;
-            {getEmails(
-              lead?.data.emails as { type: string; address: string }[]
-            )}
-          </div>
-          <div className="text-gray-600 mb-2">
-            Phone:&nbsp;
-            {getValueOf(lead?.data.phone_numbers)}
+          <div className="sm:grid grid-cols-2">
+            <div className="text-gray-600 mb-2 sm:mb-0">
+              Emails:&nbsp;
+              {getEmails(
+                lead?.data.emails as { type: string; address: string }[]
+              )}
+            </div>
+            <div className="text-gray-600 mb-2 sm:mb-0">
+              Phone:&nbsp;
+              {getValueOf(lead?.data.phone_numbers)}
+            </div>
           </div>
         </div>
 
         <div className="block_content my-4 px-8 rounded-md">
           <h1 className="text-gray-800 font-bold text-2xl my-4">Socials</h1>
           <div className="sm:grid grid-cols-2 gap-4">
-            <div className="text-gray-600">
-              LinkedIn Username: {getValueOf(lead?.data.linkedin_username)}
+            <div className="col">
+              <div className="text-gray-600 mb-2">
+                LinkedIn Username: {getValueOf(lead?.data.linkedin_username)}
+              </div>
+              <div className="text-gray-600 mb-2">
+                LinkedIn Connections:&nbsp;
+                {getValueOf(lead?.data.linkedin_connections)}
+              </div>
+              <div className="text-gray-600 mb-2">
+                Summary: {getValueOf(lead?.data.summary)}
+              </div>
             </div>
-            <div className="text-gray-600">
-              Facebook Username: {getValueOf(lead?.data.facebook_username)}
-            </div>
-            <div className="text-gray-600">
-              Twitter Username: {getValueOf(lead?.data.twitter_username)}
-            </div>
-            <div className="text-gray-600">
-              GitHub Username: {getValueOf(lead?.data.github_username)}
+            <div className="col">
+              <div className="text-gray-600 mb-2">
+                Facebook Username: {getValueOf(lead?.data.facebook_username)}
+              </div>
+              <div className="text-gray-600 mb-2">
+                GitHub Username: {getValueOf(lead?.data.github_username)}
+              </div>
+              <div className="text-gray-600 mb-2">
+                Twitter Username: {getValueOf(lead?.data.twitter_username)}
+              </div>
             </div>
           </div>
         </div>
@@ -132,51 +148,71 @@ const ProfilePage = () => {
               Industry: {getValueOf(lead?.data.industry)}
             </div>
             <div className="text-gray-600 mb-2">
+              Job Start Date: {getValueOf(lead?.data.job_start_date)}
+            </div>
+            <div className="text-gray-600 mb-2">
               Job Title: {getValueOf(lead?.data.job_title)}
             </div>
             <div className="text-gray-600 mb-2">
               Job Title Role: {getValueOf(lead?.data.job_title_role)}
             </div>
             <div className="text-gray-600 mb-2">
-              Job Company ID: {getValueOf(lead?.data.job_company_id)}
+              Inferred Salary: {getValueOf(lead?.data.inferred_salary)}
             </div>
+            <div className="text-gray-600 mb-2">
+              Inferred Years Experience:{" "}
+              {getValueOf(lead?.data.inferred_years_experience)}
+            </div>
+            <div className="text-gray-600 mb-2">
+              Job Summary: {getValueOf(lead?.data.job_summary)}
+            </div>
+          </div>
+        </div>
+
+        <div className="block_content my-4 px-8 rounded-md">
+          <h1 className="text-gray-800 font-bold text-2xl my-4">
+            Job Company Details
+          </h1>
+          <div className="md:grid grid-cols-2">
             <div className="text-gray-600 mb-2">
               Job Company Name: {getValueOf(lead?.data.job_company_name)}
-            </div>
-            <div className="text-gray-600 mb-2">
-              Job Company Website: {getValueOf(lead?.data.job_company_website)}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company Size: {getValueOf(lead?.data.job_company_size)}
             </div>
             <div className="text-gray-600 mb-2">
+              Job Company Website: {getValueOf(lead?.data.job_company_website)}
+            </div>
+            <div className="text-gray-600 mb-2">
               Job Company Founded: {getValueOf(lead?.data.job_company_founded)}
             </div>
             <div className="text-gray-600 mb-2">
-              Job Company Industry:{" "}
+              Job Company Industry:&nbsp;
               {getValueOf(lead?.data.job_company_industry)}
             </div>
             <div className="text-gray-600 mb-2">
-              Job Company LinkedIn URL:{" "}
-              {getValueOf(lead?.data.job_company_linkedin_url)}
-            </div>
-            <div className="text-gray-600 mb-2">
-              Job Company Location Name:{" "}
+              Job Company Location Name:&nbsp;
               {getValueOf(lead?.data.job_company_location_name)}
             </div>
             <div className="text-gray-600 mb-2">
-              Job Company Location country:{" "}
+              Job Company LinkedIn URL:&nbsp;
+              {getValueOf(lead?.data.job_company_linkedin_url)}
+            </div>
+            <div className="text-gray-600 mb-2">
+              Job Company Location Postal Code:&nbsp;
+              {getValueOf(lead?.data.job_company_location_postal_code)}
+            </div>
+            <div className="text-gray-600 mb-2">
+              Job Company Twitter URL:&nbsp;
+              {getValueOf(lead?.data.job_company_twitter_url)}
+            </div>
+            <div className="text-gray-600 mb-2">
+              Job Company Location Country:&nbsp;
               {getValueOf(lead?.data.job_company_location_country)}
             </div>
             <div className="text-gray-600 mb-2">
-              LinkedIn Connections:{" "}
-              {getValueOf(lead?.data.linkedin_connections)}
-            </div>
-            <div className="text-gray-600 mb-2">
-              Inferred Salary: {getValueOf(lead?.data.inferred_salary)}
-            </div>
-            <div className="text-gray-600 mb-2">
-              Summary: {getValueOf(lead?.data.summary)}
+              Job Company Facebook URL:&nbsp;
+              {getValueOf(lead?.data.job_company_facebook_url)}
             </div>
           </div>
         </div>
@@ -190,87 +226,15 @@ const ProfilePage = () => {
               Location Name: {getValueOf(lead?.data.location_name)}
             </div>
             <div className="text-gray-600">
-              Location Country: {getValueOf(lead?.data.location_country)}
+              Location Region: {getValueOf(lead?.data.location_region)}
             </div>
             <div className="text-gray-600">
-              Location Postal Code:{" "}
+              Location Postal Code:&nbsp;
               {getValueOf(lead?.data.location_postal_code)}
             </div>
             <div className="text-gray-600">
-              Location Geo: {getValueOf(lead?.data.location_geo)}
-            </div>
-            <div className="text-gray-600">
               Location Country: {getValueOf(lead?.data.location_country)}
             </div>
-          </div>
-        </div>
-
-        <div className="block_content my-4 px-8 rounded-md">
-          <h1 className="text-gray-800 font-bold text-2xl my-4">
-            Experience Details
-          </h1>
-          <div className="text-gray-600 sm:grid grid-cols-2 gap-4">
-            {lead?.data.experience.map((experience) => (
-              <Accordion className="my-8" key={v4()}>
-                <AccordionItem>
-                  <AccordionHeader>
-                    <h3 className="font-semibold text-lg flex items-center">
-                      {experience.company?.name || ""}&nbsp; <HiChevronDown />
-                    </h3>
-                  </AccordionHeader>
-                  <AccordionBody>
-                    <div className="accordion-body">
-                      <p className="mb-1">Title: {experience.title.name}</p>
-                      <p className="mb-1">
-                        Start Date: {getValueOf(experience.start_date)}
-                      </p>
-                      <p className="mb-1">
-                        End Date: {getValueOf(experience.end_date)}
-                      </p>
-                      <p className="mb-1">
-                        Summary: {getValueOf(experience.summary)}
-                      </p>
-                    </div>
-                  </AccordionBody>
-                </AccordionItem>
-              </Accordion>
-            ))}
-          </div>
-        </div>
-
-        <div className="block_content my-4 px-8 rounded-md">
-          <h1 className="text-gray-800 font-bold text-2xl my-4">
-            Education Details
-          </h1>
-          <div className="text-gray-600 sm:grid grid-cols-2 gap-4">
-            {lead?.data.education.map((education) => (
-              <Accordion className="my-8">
-                <AccordionItem>
-                  <AccordionHeader>
-                    <h3 className="font-semibold text-lg flex items-center">
-                      {education.school.name}&nbsp; <HiChevronDown />
-                    </h3>
-                  </AccordionHeader>
-                  <AccordionBody>
-                    <div className="accordion-body">
-                      <p className="mb-1">
-                        Institution Type: {education.school.type}
-                      </p>
-                      <p className="mb-1">
-                        Degrees: {getValueOf(education.degrees)}
-                      </p>
-                      <p className="mb-1">
-                        Majors: {getValueOf(education.majors)}
-                      </p>
-                      <p className="mb-1">
-                        Minors: {getValueOf(education.minors)}
-                      </p>
-                      <p className="mb-1">End Date: {education.end_date}</p>
-                    </div>
-                  </AccordionBody>
-                </AccordionItem>
-              </Accordion>
-            ))}
           </div>
         </div>
       </div>
