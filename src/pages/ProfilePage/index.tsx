@@ -4,7 +4,14 @@ import { Link, useParams } from "react-router-dom";
 import { getSingleLead } from "api";
 import { Lead } from "types";
 import { spinner } from "assets";
-import { HiChevronLeft } from "react-icons/hi";
+import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionBody,
+  AccordionHeader,
+} from "react-headless-accordion";
+import { v4 } from "uuid";
 
 const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -207,6 +214,38 @@ const ProfilePage = () => {
               Job Company Facebook URL:&nbsp;
               {getValueOf(lead?.data.job_company_facebook_url)}
             </div>
+          </div>
+        </div>
+        <div className="block_content my-4 px-8 rounded-md">
+          <h1 className="text-gray-800 font-bold text-2xl my-4">
+            Experience Details
+          </h1>
+          <div className="text-gray-600 sm:grid grid-cols-2 gap-4">
+            {lead?.data.experience.map((experience) => (
+              <Accordion className="my-8" key={v4()}>
+                <AccordionItem>
+                  <AccordionHeader>
+                    <h3 className="font-semibold text-lg flex items-center">
+                      {experience.company?.name || ""}&nbsp; <HiChevronDown />
+                    </h3>
+                  </AccordionHeader>
+                  <AccordionBody>
+                    <div className="accordion-body">
+                      <p className="mb-1">Title: {experience.title.name}</p>
+                      <p className="mb-1">
+                        Start Date: {getValueOf(experience.start_date)}
+                      </p>
+                      <p className="mb-1">
+                        End Date: {getValueOf(experience.end_date)}
+                      </p>
+                      <p className="mb-1">
+                        Summary: {getValueOf(experience.summary)}
+                      </p>
+                    </div>
+                  </AccordionBody>
+                </AccordionItem>
+              </Accordion>
+            ))}
           </div>
         </div>
 
