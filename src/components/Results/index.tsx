@@ -1,5 +1,5 @@
 import { Menu } from "@headlessui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../Card";
 import { v4 } from "uuid";
 import { Lead } from "../../types";
@@ -17,6 +17,13 @@ const Results = ({ results }: IResults) => {
   const [selectedDocuments, setSelectedDocuments] = useState<Lead[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [exportChoice, setExportChoice] = useState("");
+  const [areAllSelected, setAreAllSelected] = useState(false);
+
+  useEffect(() => {
+    if (selectedDocuments.length !== results.results.length) {
+      setAreAllSelected(false);
+    }
+  }, selectedDocuments);
 
   const onSelect = (lead: Lead) => {
     if (selectedDocuments.indexOf(lead) >= 0) {
@@ -32,6 +39,23 @@ const Results = ({ results }: IResults) => {
     <>
       <div className="bg-gray-50 my-8">
         <div className="flex items-center justify-between">
+          <h1 className="font-bold text-black text-lg">
+            <input
+              type="checkbox"
+              id="are-all-selected"
+              checked={areAllSelected}
+              onChange={() => {
+                setAreAllSelected(!areAllSelected);
+                if (selectedDocuments.length !== results.results.length)
+                  setSelectedDocuments(results.results);
+                else {
+                  setSelectedDocuments([]);
+                }
+              }}
+            />
+            &nbsp;
+            <label htmlFor="are-all-selected">Select All</label>
+          </h1>
           <h1 className="font-bold text-black text-lg">
             Results:&nbsp;
             <span className="text-gray-600">{results.total_results}</span>
@@ -84,7 +108,11 @@ const Results = ({ results }: IResults) => {
         <div className="cards">
           {results.results.map((result) => (
             <div className="flex items-center">
-              <input type="checkbox" onChange={() => onSelect(result)} />
+              <input
+                type="checkbox"
+                checked={selectedDocuments.indexOf(result) >= 0}
+                onChange={() => onSelect(result)}
+              />
               <Card key={v4()} card={result} />
             </div>
           ))}

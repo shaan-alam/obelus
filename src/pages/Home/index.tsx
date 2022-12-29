@@ -19,6 +19,7 @@ import { exportJSONDocuments } from "../../util";
 import classNames from "classnames";
 
 // TODO: refactor the code
+const companies = ["youtube", "google", "apple", "microsoft"];
 
 function Home() {
   const [state, setState] = useState<IState>(initialState);
@@ -176,13 +177,20 @@ function Home() {
             <label htmlFor="" className="block font-medium mb-2">
               Company Name
             </label>
-            <input
-              type="text"
-              placeholder="Company Name"
-              className="py-3 px-4 rounded-md outline-none border shadow w-full"
-              name="job_company_name"
-              value={state.job_company_name}
-              onChange={onChange}
+            <MultiSelect
+              options={companies}
+              values={state.companies}
+              onDelete={(comanpyName) => {
+                setState({
+                  ...state,
+                  companies: state.companies.filter(
+                    (company) => company !== comanpyName
+                  ),
+                });
+              }}
+              onSelect={(company) =>
+                setState({ ...state, companies: [...state.companies, company] })
+              }
             />
           </div>
           <div className="my-4 sm:my-0">
@@ -215,11 +223,11 @@ function Home() {
             <MultiSelect
               options={countries}
               values={state.countries}
-              onDelete={(countryCode) => {
+              onDelete={(countryName) => {
                 setState({
                   ...state,
                   countries: state.countries.filter(
-                    (country) => country.code !== countryCode
+                    (country) => country !== countryName
                   ),
                 });
               }}

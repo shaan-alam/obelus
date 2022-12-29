@@ -6,9 +6,9 @@ import type { BarkLead } from "../pages/Bark/types";
 interface IParameters {
   first_name: string;
   last_name: string;
-  countries: { name: string; code: string }[];
+  countries: string[];
   linkedin_username: string;
-  job_company_name: string;
+  companies: string[];
   job_company_website: string;
   email: string;
   phone: string;

@@ -13,10 +13,10 @@ const Modal = ({
   return (
     <Transition
       show={isOpen}
-      enter="transition duration-800 ease-out"
+      enter="transition duration-200 ease-out"
       enterFrom="transform scale-95 opacity-0"
       enterTo="transform scale-100 opacity-100"
-      leave="transition duration-75 ease-out"
+      leave="transition duration-200 ease-out"
       leaveFrom="transform scale-800 opacity-100"
       leaveTo="transform scale-95 opacity-0"
       as={React.Fragment}

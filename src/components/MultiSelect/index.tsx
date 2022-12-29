@@ -1,23 +1,17 @@
 import { useState, useEffect } from "react";
-import { HiChevronDown } from "react-icons/hi";
 import { v4 } from "uuid";
 
-interface Country {
-  code: string;
-  name: string;
-}
-
 interface Props {
-  options: Country[];
-  values: Country[];
-  onSelect: (country: Country) => void;
+  options: string[];
+  values: string[];
+  onSelect: (country: string) => void;
   onDelete: (countryCode: string) => void;
 }
 
 const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [query, setQuery] = useState("");
-  const [items, setItems] = useState<typeof options>(options);
+  const [items, setItems] = useState<string[]>(options);
 
   useEffect(() => {
     const toggleDropdown = (e: any) => {
@@ -40,9 +34,7 @@ const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
       setItems([...options]);
     } else {
       setItems((item) =>
-        items.filter((item) =>
-          item.name.toLowerCase().match(query.toLowerCase())
-        )
+        items.filter((item) => item.toLowerCase().match(query.toLowerCase()))
       );
     }
   }, [query, setQuery]);
@@ -56,10 +48,10 @@ const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
           {values.map((country) => (
             <div className="tag bg-gray-300 font-normal text-gray-600 mr-1 p-1 rounded-md text-sm mb-1">
               <p key={v4()}>
-                {country.name}&nbsp;
+                {country}&nbsp;
                 <span
                   className="inline text-lg cursor-pointer"
-                  onClick={() => onDelete(country.code)}
+                  onClick={() => onDelete(country)}
                 >
                   &times;
                 </span>
@@ -79,7 +71,7 @@ const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
         />
       </div>
       {isActive && (
-        <div className="dropdown bg-white rounded-md my-2 shadow-md p-2 absolute top-[100%] left-0 z-1 h-[300px] overflow-y-auto w-full">
+        <div className="dropdown bg-white rounded-md my-2 shadow-md p-2 absolute top-[100%] left-0 z-[100] h-[300px] overflow-y-auto w-full">
           {items.length === 0 && (
             <p className="text-gray-600 text-center my-4">
               No Countries found!!
@@ -94,7 +86,7 @@ const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
                 setQuery("");
               }}
             >
-              {option.name}
+              {option}
             </span>
           ))}
         </div>
