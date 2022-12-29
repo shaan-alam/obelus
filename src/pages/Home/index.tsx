@@ -8,8 +8,9 @@ import { spinner, spinnerDark } from "assets";
 import { initialState, IState } from "./types";
 import { Results, KeywordInput, MultiSelect, Pagination } from "components";
 import { countries } from "./data";
-import { checkObjectHasValues } from "util/";
+import { checkObjectHasValues, exportJSONDocuments } from "util/";
 import { useLeads, useDownloadLeads } from "hooks";
+import { Lead } from "types";
 
 // TODO: refactor the code
 const companies = ["youtube", "google", "apple", "microsoft"];
@@ -33,6 +34,9 @@ function Home() {
     state,
     options: {
       enabled: false,
+      onSuccess: ({ results }) => {
+        exportJSONDocuments<Lead[]>(results);
+      },
     },
   });
 
