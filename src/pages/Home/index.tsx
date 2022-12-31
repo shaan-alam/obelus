@@ -9,22 +9,28 @@ import { initialState, IState } from "./types";
 import { Results, KeywordInput, MultiSelect, Pagination } from "components";
 import { countries } from "./data";
 import { checkObjectHasValues, exportJSONDocuments } from "util/";
-import { useLeads } from "hooks";
 import { Lead } from "types";
-import { useQuery } from "react-query";
-import { downloadResults, getSearchResults } from "api";
+import { useQuery, useQueryClient } from "react-query";
+import { downloadResults, fetchCompanyNames, getSearchResults } from "api";
+import useDebounce from "hooks/useDebounce";
+import LiveSearch from "components/LiveSearch";
 
-// TODO: refactor the code
-const companies = ["youtube", "google", "apple", "microsoft"];
-
-function Home() {
+const Home: React.FC = () => {
   const [state, setState] = useState<IState>(initialState);
   const [error, setError] = useState<{ status: number; text: string } | null>(
     null
   );
 
+  const [companyOptions, setCompanyOptions] = useState<string[] | undefined>(
+    []
+  );
+  const [companyNameQuery, setCompanyNameQuery] = useState("");
+  const [countryNameQuery, setCountryNameQuery] = useState("");
+  const debouncedValue = useDebounce(companyNameQuery, 1000);
+
   const { search } = useLocation();
   const page_number = search.split("=")[1];
+  console.log(state);
 
   useEffect(() => {
     if (checkObjectHasValues(state)) refetch();
@@ -42,6 +48,29 @@ function Home() {
       },
     }
   );
+
+  const { refetch: fetchData, isFetching: isLoadingCountries } = useQuery(
+    ["fetch-company-names"],
+    ({ signal }) => fetchCompanyNames(debouncedValue, { signal }),
+    {
+      enabled: false,
+      onSuccess: (results) => {
+        console.log(results.data);
+        setCompanyOptions(results.data);
+      },
+    }
+  );
+
+  const client = useQueryClient();
+  useEffect(() => {
+    // Cancel the previous API request if the debounce value is changed
+    client.cancelQueries(["fetch-company-names"]);
+
+    if (debouncedValue !== "") fetchData();
+
+    console.log(state.job_company_names);
+  }, [debouncedValue]);
+
   const { isLoading, isFetching, refetch, data, isFetched, isError } = useQuery(
     "search",
     () =>
@@ -136,19 +165,25 @@ function Home() {
             <label htmlFor="" className="block font-medium mb-2">
               Company Name
             </label>
-            <MultiSelect
-              options={companies}
-              values={state.companies}
+            <LiveSearch
+              isLoading={isLoadingCountries}
+              query={companyNameQuery}
+              setQuery={setCompanyNameQuery}
+              options={companyOptions}
+              values={state.job_company_names}
               onDelete={(comanpyName) => {
                 setState({
                   ...state,
-                  companies: state.companies.filter(
+                  job_company_names: state.job_company_names.filter(
                     (company) => company !== comanpyName
                   ),
                 });
               }}
               onSelect={(company) =>
-                setState({ ...state, companies: [...state.companies, company] })
+                setState({
+                  ...state,
+                  job_company_names: [...state.job_company_names, company],
+                })
               }
             />
           </div>
@@ -176,6 +211,8 @@ function Home() {
               Country
             </label>
             <MultiSelect
+              query={countryNameQuery}
+              setQuery={setCountryNameQuery}
               options={countries}
               values={state.countries}
               onDelete={(countryName) => {
@@ -258,6 +295,6 @@ function Home() {
       </div>
     </div>
   );
-}
+};
 
 export default Home;

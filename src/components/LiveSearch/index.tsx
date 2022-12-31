@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { spinnerDark } from "assets";
 import { v4 } from "uuid";
+import Skeleton from "react-loading-skeleton";
 
 interface Props {
   options: string[] | undefined;
@@ -8,15 +10,17 @@ interface Props {
   onDelete: (countryCode: string) => void;
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
+  isLoading: boolean;
 }
 
-const MultiSelect = ({
+const LiveSearch = ({
   options,
   values,
   onSelect,
   onDelete,
   query,
   setQuery,
+  isLoading,
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [items, setItems] = useState<string[]>(options as string[]);
@@ -36,16 +40,6 @@ const MultiSelect = ({
 
     return () => window.removeEventListener("click", toggleDropdown);
   }, []);
-
-  useEffect(() => {
-    if (!query) {
-      setItems([...(options as string[])]);
-    } else {
-      setItems((items) =>
-        items.filter((item) => item.toLowerCase().match(query.toLowerCase()))
-      );
-    }
-  }, [query, setQuery]);
 
   return (
     <div
@@ -75,33 +69,35 @@ const MultiSelect = ({
         <input
           type="text"
           className="multiselect_input outline-none w-full"
+          value={query}
           placeholder="Country"
           onFocus={() => setIsActive(true)}
-          value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      {isActive && (
+      {isActive && query && (
         <div className="dropdown bg-white rounded-md my-2 shadow-md p-2 absolute top-[100%] left-0 z-[100] h-[300px] overflow-y-auto w-full">
-          {options?.length === 0 && (
+          {!isLoading && options?.length === 0 && (
             <p className="text-gray-600 text-center my-4">No Results found!!</p>
           )}
-          {options?.map((option) => (
-            <span
-              key={v4()}
-              className="select_option block cursor-pointer py-2 hover:bg-gray-100 px-2 rounded-md text-gray-800 hover:text-black"
-              onClick={() => {
-                if (values.indexOf(option) < 0) onSelect(option);
-                setQuery("");
-              }}
-            >
-              {option}
-            </span>
-          ))}
+          {isLoading && <Skeleton count={5} className="h-7 mt-4" />}
+          {!isLoading &&
+            options?.map((option) => (
+              <span
+                key={v4()}
+                className="select_option block cursor-pointer py-2 hover:bg-gray-100 px-2 rounded-md text-gray-800 hover:text-black"
+                onClick={() => {
+                  if (values.indexOf(option) < 0) onSelect(option);
+                  setQuery("");
+                }}
+              >
+                {option}
+              </span>
+            ))}
         </div>
       )}
     </div>
   );
 };
 
-export default MultiSelect;
+export default LiveSearch;

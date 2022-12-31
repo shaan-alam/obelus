@@ -27,3 +27,13 @@ export const downloadResults = (data: Omit<IParameters, "page_no">) =>
   api.post("/download", {
     ...data,
   });
+
+export const fetchCompanyNames = (
+  companyName: string,
+  options: { [s: string]: unknown }
+) => {
+  console.log("com", companyName);
+  return api.get<string[]>(`/search/company/?company_name=${companyName}`, {
+    ...options,
+  });
+};

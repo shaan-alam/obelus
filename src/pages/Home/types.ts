@@ -5,7 +5,7 @@ export const initialState: IState = {
   email: "",
   linkedin_username: "",
   keywords: [],
-  companies: [],
+  job_company_names: [],
   job_company_website: "",
   countries: [],
   phone: "",
@@ -22,7 +22,7 @@ export interface IState {
   email: string;
   linkedin_username: string;
   keywords: Keyword[];
-  companies: string[];
+  job_company_names: string[];
   job_company_website: string
   countries: string[]
   phone: string
