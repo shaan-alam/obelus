@@ -37,8 +37,10 @@ const BarkPanel = () => {
     ["bark-single-lead", id],
     () => getSingleBarkData(id as string),
     {
+      refetchOnWindowFocus: false,
       onSuccess: (result) => {
         setLead(result.data);
+        console.log(result.data);
       },
     }
   );
@@ -47,17 +49,22 @@ const BarkPanel = () => {
     <div className="flex">
       <div className="h-screen overflow-y-auto py-12 px-8 w-1/2">
         <h1 className="text-gray-800 text-2xl mb-2 font-bold">
-          {lead?.buyer_share_name || <Skeleton />}
+          {isFetching ? <Skeleton /> : lead?.buyer_share_name}
         </h1>
         <div className="my-3">
-          <h5 className="text-gray-800">{lead?.project_title}</h5>
           <h5 className="text-gray-800">
-            {lead?.city_string || <Skeleton />},{" "}
-            {lead?.bark_country_name || <Skeleton />}
+            {isFetching ? <Skeleton /> : lead?.project_title}
+          </h5>
+          <h5 className="text-gray-800">
+            {isFetching ? (
+              <Skeleton />
+            ) : (
+              `${lead?.city_string} ${lead?.bark_country_name}`
+            )}
           </h5>
         </div>
         <div className="my-3">
-          {lead?.buyer_telephone ? (
+          {!isFetching ? (
             <h5 className="text-gray-800 flex items-center">
               <HiPhone />
               &nbsp; {lead?.buyer_telephone}
@@ -71,7 +78,7 @@ const BarkPanel = () => {
           ) : (
             <Skeleton />
           )}
-          {lead?.buyer_email ? (
+          {!isFetching ? (
             <h5 className="text-gray-800 flex items-center">
               <HiMail />
               &nbsp; {lead?.buyer_email}
@@ -80,7 +87,7 @@ const BarkPanel = () => {
             <Skeleton />
           )}
         </div>
-        {!lead?.response_count ? (
+        {isFetching ? (
           <Skeleton />
         ) : (
           lead?.response_count !== 0 &&
@@ -96,7 +103,7 @@ const BarkPanel = () => {
             </div>
           )
         )}
-        {lead?.custom_fields ? (
+        {!isFetching ? (
           <div className="my-8">
             <h1 className="font-bold text-lg">Details</h1>
             {lead?.custom_fields.map((field) => (
@@ -112,35 +119,41 @@ const BarkPanel = () => {
           </div>
         ) : (
           <>
-            <Skeleton height={50} width={700} count={5} />
+            <Skeleton height={35} width={700} count={5} className="my-4" />
           </>
         )}
       </div>
       <div className="w-1/2 py-12 px-8 border-l">
         <h1 className="text-gray-800 text-2xl mb-2 font-bold">Matches</h1>
-        {!lead?.matches.length && (
+        {!isFetching && lead?.matches.length === 0 && (
           <div className="bg-red-200 text-red-600 py-6 rounded-md text-center font-bold">
             No matches found!
           </div>
         )}
-        {lead?.matches.map((match) => (
-          <div className="p-4 bg-gray-100 rounded-md my-4">
-            <div className="grid grid-cols-2">
-              <div className="field mb-2 text-gray-600">
-                Full Name: {match.data.full_name || "NA"}
+        {isLoading || isFetching ? (
+          <Skeleton height={100} count={4} className="my-4" />
+        ) : (
+          <>
+            {lead?.matches.map((match) => (
+              <div className="p-4 bg-gray-100 rounded-md my-4">
+                <div className="grid grid-cols-2">
+                  <div className="field mb-2 text-gray-600">
+                    Full Name: {match.data.full_name || "NA"}
+                  </div>
+                  <div className="field mb-2 text-gray-600">
+                    Address: {match.data.location_street_address || "NA"}
+                  </div>
+                  <div className="field mb-2 text-gray-600">
+                    Email: {match.data.work_email || "NA"}
+                  </div>
+                  <div className="field mb-2 text-gray-600">
+                    Phone: {match.data.mobile_phone || "NA"}
+                  </div>
+                </div>
               </div>
-              <div className="field mb-2 text-gray-600">
-                Address: {match.data.location_street_address || "NA"}
-              </div>
-              <div className="field mb-2 text-gray-600">
-                Email: {match.data.work_email || "NA"}
-              </div>
-              <div className="field mb-2 text-gray-600">
-                Phone: {match.data.mobile_phone || "NA"}
-              </div>
-            </div>
-          </div>
-        ))}
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
