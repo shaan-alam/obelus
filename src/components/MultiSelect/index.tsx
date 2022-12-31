@@ -6,20 +6,12 @@ interface Props {
   values: string[];
   onSelect: (country: string) => void;
   onDelete: (countryCode: string) => void;
-  query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const MultiSelect = ({
-  options,
-  values,
-  onSelect,
-  onDelete,
-  query,
-  setQuery,
-}: Props) => {
+const MultiSelect = ({ options, values, onSelect, onDelete }: Props) => {
   const [isActive, setIsActive] = useState(false);
   const [items, setItems] = useState<string[]>(options as string[]);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const toggleDropdown = (e: any) => {
@@ -83,10 +75,10 @@ const MultiSelect = ({
       </div>
       {isActive && (
         <div className="dropdown bg-white rounded-md my-2 shadow-md p-2 absolute top-[100%] left-0 z-[100] h-[300px] overflow-y-auto w-full">
-          {options?.length === 0 && (
+          {items?.length === 0 && (
             <p className="text-gray-600 text-center my-4">No Results found!!</p>
           )}
-          {options?.map((option) => (
+          {items?.map((option) => (
             <span
               key={v4()}
               className="select_option block cursor-pointer py-2 hover:bg-gray-100 px-2 rounded-md text-gray-800 hover:text-black"

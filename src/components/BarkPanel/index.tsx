@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getSingleBarkData } from "../../api";
 import { BarkLead } from "../../pages/Bark/types";
-import { decodeToHTML } from "../../util";
+import { decodeToHTML, getEmails } from "../../util";
 import Skeleton from "react-loading-skeleton";
 
 const ResponseDisplay = ({
@@ -48,16 +48,23 @@ const BarkPanel = () => {
   return (
     <div className="flex">
       <div className="h-screen overflow-y-auto py-12 px-8 w-1/2">
-        <h1 className="text-gray-800 text-2xl mb-2 font-bold">
-          {isFetching ? <Skeleton /> : lead?.buyer_share_name}
+        <h1 className="text-gray-800 text-2xl mb-2 font-bold flex items-center justify-between">
+          {isFetching ? <Skeleton width={100} /> : lead?.buyer_share_name}
+          {isFetching ? (
+            <Skeleton width={50} />
+          ) : (
+            <span className="text-sm text-gray-500">
+              {new Date(lead?.since as any).toLocaleDateString() || "NA"}
+            </span>
+          )}
         </h1>
         <div className="my-3">
           <h5 className="text-gray-800">
-            {isFetching ? <Skeleton /> : lead?.project_title}
+            {isFetching ? <Skeleton width={120} /> : lead?.project_title}
           </h5>
           <h5 className="text-gray-800">
             {isFetching ? (
-              <Skeleton />
+              <Skeleton width={150} />
             ) : (
               `${lead?.city_string} ${lead?.bark_country_name}`
             )}
@@ -76,7 +83,7 @@ const BarkPanel = () => {
               )}
             </h5>
           ) : (
-            <Skeleton />
+            <Skeleton width={200} />
           )}
           {!isFetching ? (
             <h5 className="text-gray-800 flex items-center">
@@ -84,11 +91,11 @@ const BarkPanel = () => {
               &nbsp; {lead?.buyer_email}
             </h5>
           ) : (
-            <Skeleton />
+            <Skeleton width={200} />
           )}
         </div>
         {isFetching ? (
-          <Skeleton />
+          <Skeleton width={300} height={30} />
         ) : (
           lead?.response_count !== 0 &&
           lead?.response_cap !== 0 && (
@@ -119,12 +126,19 @@ const BarkPanel = () => {
           </div>
         ) : (
           <>
-            <Skeleton height={35} width={700} count={5} className="my-4" />
+            <Skeleton height={35} width={300} className="my-4" />
+            <Skeleton height={35} width={400} className="my-4" />
+            <Skeleton height={35} width={300} className="my-4" />
+            <Skeleton height={35} width={400} className="my-4" />
+            <Skeleton height={35} width={300} className="my-4" />
+            <Skeleton height={35} width={400} className="my-4" />
           </>
         )}
       </div>
       <div className="w-1/2 py-12 px-8 border-l">
-        <h1 className="text-gray-800 text-2xl mb-2 font-bold">Matches</h1>
+        <h1 className="text-gray-800 text-2xl mb-2 font-bold">
+          {!isFetching && "Matches"}
+        </h1>
         {!isFetching && lead?.matches.length === 0 && (
           <div className="bg-red-200 text-red-600 py-6 rounded-md text-center font-bold">
             No matches found!
@@ -136,7 +150,7 @@ const BarkPanel = () => {
           <>
             {lead?.matches.map((match) => (
               <div className="p-4 bg-gray-100 rounded-md my-4">
-                <div className="grid grid-cols-2">
+                <div className="">
                   <div className="field mb-2 text-gray-600">
                     Full Name: {match.data.full_name || "NA"}
                   </div>
@@ -144,10 +158,13 @@ const BarkPanel = () => {
                     Address: {match.data.location_street_address || "NA"}
                   </div>
                   <div className="field mb-2 text-gray-600">
-                    Email: {match.data.work_email || "NA"}
+                    Email: {getEmails(match.data.emails) || "NA"}
                   </div>
                   <div className="field mb-2 text-gray-600">
-                    Phone: {match.data.mobile_phone || "NA"}
+                    Phone:&nbsp;
+                    {match.data.phone_numbers.map((phone) => (
+                      <span>phone</span>
+                    )) || "NA"}
                   </div>
                 </div>
               </div>

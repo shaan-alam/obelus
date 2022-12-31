@@ -12,22 +12,11 @@ import {
   AccordionHeader,
 } from "react-headless-accordion";
 import { v4 } from "uuid";
+import { getEmails } from "util/";
 
 const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
   const [lead, setLead] = useState<Pick<Lead, "data">>();
-
-  const getEmails = (
-    emails: { address: string; type: string }[]
-  ): string | undefined => {
-    let results = emails?.map((email) => email.address);
-
-    if (results?.length !== 0) {
-      return results?.join(", ");
-    } else {
-      return "NA";
-    }
-  };
 
   const getValueOf = (str: string[] | string | undefined) => {
     if (str instanceof Array) {

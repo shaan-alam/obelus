@@ -30,7 +30,6 @@ const Home: React.FC = () => {
 
   const { search } = useLocation();
   const page_number = search.split("=")[1];
-  console.log(state);
 
   useEffect(() => {
     if (checkObjectHasValues(state)) refetch();
@@ -67,8 +66,6 @@ const Home: React.FC = () => {
     client.cancelQueries(["fetch-company-names"]);
 
     if (debouncedValue !== "") fetchData();
-
-    console.log(state.job_company_names);
   }, [debouncedValue]);
 
   const { isLoading, isFetching, refetch, data, isFetched, isError } = useQuery(
@@ -211,8 +208,6 @@ const Home: React.FC = () => {
               Country
             </label>
             <MultiSelect
-              query={countryNameQuery}
-              setQuery={setCountryNameQuery}
               options={countries}
               values={state.countries}
               onDelete={(countryName) => {

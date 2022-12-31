@@ -23,7 +23,6 @@ const LiveSearch = ({
   isLoading,
 }: Props) => {
   const [isActive, setIsActive] = useState(false);
-  const [items, setItems] = useState<string[]>(options as string[]);
 
   useEffect(() => {
     const toggleDropdown = (e: any) => {
@@ -47,16 +46,16 @@ const LiveSearch = ({
     >
       {values.length > 0 && (
         <div className="flex flex-wrap">
-          {values.map((country) => (
+          {values.map((company) => (
             <div
               className="tag bg-gray-300 font-normal text-gray-600 mr-1 p-1 rounded-md text-sm mb-1"
               key={v4()}
             >
               <p>
-                {country}&nbsp;
+                {company}&nbsp;
                 <span
                   className="inline text-lg cursor-pointer"
-                  onClick={() => onDelete(country)}
+                  onClick={() => onDelete(company)}
                 >
                   &times;
                 </span>
@@ -70,7 +69,7 @@ const LiveSearch = ({
           type="text"
           className="multiselect_input outline-none w-full"
           value={query}
-          placeholder="Country"
+          placeholder="Company"
           onFocus={() => setIsActive(true)}
           onChange={(e) => setQuery(e.target.value)}
         />
