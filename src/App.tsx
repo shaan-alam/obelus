@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BarkPanel } from "components";
-import { Home, ProfilePage, Bark } from "pages";
-import Login from "pages/Login";
+import { Home, ProfilePage, Bark, Login } from "pages";
 
 const App = () => {
   return (

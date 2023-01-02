@@ -1,3 +1,4 @@
+import { ifError } from "assert";
 
 export const initialState: IState = {
   first_name: "",
@@ -27,3 +28,5 @@ export interface IState {
   countries: string[]
   phone: string
 }
+
+export type Error = { status: number, text: string } | null

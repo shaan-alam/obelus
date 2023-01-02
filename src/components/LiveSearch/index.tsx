@@ -1,17 +1,7 @@
 import { useState, useEffect } from "react";
-import { spinnerDark } from "assets";
 import { v4 } from "uuid";
 import Skeleton from "react-loading-skeleton";
-
-interface Props {
-  options: string[] | undefined;
-  values: string[];
-  onSelect: (country: string) => void;
-  onDelete: (countryCode: string) => void;
-  query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
-  isLoading: boolean;
-}
+import { IProps } from "./types";
 
 const LiveSearch = ({
   options,
@@ -21,7 +11,7 @@ const LiveSearch = ({
   query,
   setQuery,
   isLoading,
-}: Props) => {
+}: IProps) => {
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {

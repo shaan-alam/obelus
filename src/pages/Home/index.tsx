@@ -1,89 +1,55 @@
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { useLocation } from "react-router-dom";
-import { AxiosError } from "axios";
 import classNames from "classnames";
 import "react-loading-skeleton/dist/skeleton.css";
 import { spinner, spinnerDark } from "assets";
-import { initialState, IState } from "./types";
-import { Results, KeywordInput, MultiSelect, Pagination } from "components";
+import { Error, initialState, IState } from "./types";
+import {
+  Results,
+  KeywordInput,
+  MultiSelect,
+  Pagination,
+  LiveSearch,
+} from "components";
 import { countries } from "./data";
-import { checkObjectHasValues, exportJSONDocuments } from "util/";
-import { Lead } from "types";
-import { useQuery, useQueryClient } from "react-query";
-import { downloadResults, fetchCompanyNames, getSearchResults } from "api";
-import useDebounce from "hooks/useDebounce";
-import LiveSearch from "components/LiveSearch";
+import { checkObjectHasValues } from "util/";
+import { useQueryClient } from "react-query";
+import {
+  useLeads,
+  useDebounce,
+  useDownloadLeads,
+  useCompanyNames,
+} from "hooks";
 
 const Home: React.FC = () => {
+  const client = useQueryClient();
   const [state, setState] = useState<IState>(initialState);
-  const [error, setError] = useState<{ status: number; text: string } | null>(
-    null
-  );
-
+  const [error, setError] = useState<Error>(null);
   const [companyOptions, setCompanyOptions] = useState<string[] | undefined>(
     []
   );
   const [companyNameQuery, setCompanyNameQuery] = useState("");
-  const [countryNameQuery, setCountryNameQuery] = useState("");
   const debouncedValue = useDebounce(companyNameQuery, 1000);
 
   const { search } = useLocation();
   const page_number = search.split("=")[1];
 
-  useEffect(() => {
-    if (checkObjectHasValues(state)) refetch();
+  const { download, isDownloading } = useDownloadLeads(state);
 
-    window.scrollTo({ top: 0 });
-  }, [page_number]);
-
-  const { refetch: download, isLoading: isDownloading } = useQuery(
-    ["download-data"],
-    () => downloadResults(state),
-    {
-      enabled: false,
-      onSuccess: (results) => {
-        exportJSONDocuments<Lead[]>(results.data);
-      },
-    }
+  const { fetchCompanies, isLoadingCountries } = useCompanyNames(
+    debouncedValue,
+    setCompanyOptions
   );
 
-  const { refetch: fetchData, isFetching: isLoadingCountries } = useQuery(
-    ["fetch-company-names"],
-    ({ signal }) => fetchCompanyNames(debouncedValue, { signal }),
-    {
-      enabled: false,
-      onSuccess: (results) => {
-        console.log(results.data);
-        setCompanyOptions(results.data);
-      },
-    }
-  );
-
-  const client = useQueryClient();
-  useEffect(() => {
-    // Cancel the previous API request if the debounce value is changed
-    client.cancelQueries(["fetch-company-names"]);
-
-    if (debouncedValue !== "") fetchData();
-  }, [debouncedValue]);
-
-  const { isLoading, isFetching, refetch, data, isFetched, isError } = useQuery(
-    "search",
-    () =>
-      getSearchResults({ ...state, page_no: (page_number as string) || "1" }),
-    {
-      enabled: false,
-      onError: (err) => {
-        const error = err as AxiosError;
-        if (error?.response?.status === 507) {
-          setError({ status: 507, text: "Exceeded Limit" });
-        } else if (error?.response?.status === 404) {
-          setError({ status: 404, text: "No Results Found!" });
-        }
-      },
-    }
-  );
+  const {
+    isLoading,
+    isFetching,
+    refetch: refetchLeads,
+    data,
+    isFetched,
+    isError,
+  } = useLeads(state, page_number, setError);
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> | undefined = (
     e
@@ -98,6 +64,19 @@ const Home: React.FC = () => {
     // set error to null if another request is made
     if (isLoading) setError(null);
   }, [isLoading]);
+
+  useEffect(() => {
+    // Cancel the previous API request if the debounce value is changed
+    client.cancelQueries(["fetch-company-names"]);
+
+    if (debouncedValue !== "") fetchCompanies();
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    if (checkObjectHasValues(state)) refetchLeads();
+
+    window.scrollTo({ top: 0 });
+  }, [page_number]);
 
   return (
     <div className="App">
@@ -240,7 +219,7 @@ const Home: React.FC = () => {
         <div className="flex justify-center md:justify-end py-5">
           <button
             className="bg-blue-800 flex items-center justify-between outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
-            onClick={() => refetch()}
+            onClick={() => refetchLeads()}
             disabled={!checkObjectHasValues(state)}
           >
             {(isLoading || isFetching) && (

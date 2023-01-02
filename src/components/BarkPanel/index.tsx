@@ -1,12 +1,11 @@
-import classnames from "classnames";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { HiPhone, HiMail, HiCheck } from "react-icons/hi";
-import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
-import { getSingleBarkData } from "../../api";
-import { BarkLead } from "../../pages/Bark/types";
-import { decodeToHTML, getEmails } from "../../util";
+import classnames from "classnames";
 import Skeleton from "react-loading-skeleton";
+import { useParams } from "react-router-dom";
+import { BarkLead } from "pages/Bark/types";
+import { decodeToHTML, getEmails } from "util/";
+import { useSingleBarkData } from "hooks";
 
 const ResponseDisplay = ({
   count,
@@ -31,19 +30,9 @@ const ResponseDisplay = ({
 
 const BarkPanel = () => {
   const { id } = useParams<{ id: string }>();
-  const [lead, setLead] = useState<BarkLead>();
+  const [lead, setLead] = useState<BarkLead | null>(null);
 
-  const { isLoading, isFetching, refetch } = useQuery(
-    ["bark-single-lead", id],
-    () => getSingleBarkData(id as string),
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: (result) => {
-        setLead(result.data);
-        console.log(result.data);
-      },
-    }
-  );
+  const { isLoading, isFetching } = useSingleBarkData(id as string, setLead);
 
   return (
     <div className="flex">

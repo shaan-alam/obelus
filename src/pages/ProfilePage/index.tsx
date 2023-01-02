@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
-import { getSingleLead } from "api";
 import { Lead } from "types";
-import { spinner } from "assets";
+import { spinnerDark } from "assets";
 import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
 import {
   Accordion,
@@ -12,41 +10,18 @@ import {
   AccordionHeader,
 } from "react-headless-accordion";
 import { v4 } from "uuid";
-import { getEmails } from "util/";
+import { getEmails, getValueOf } from "util/";
+import useSingleLead from "hooks/useSingleLead";
 
 const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
-  const [lead, setLead] = useState<Pick<Lead, "data">>();
+  const [lead, setLead] = useState<Pick<Lead, "data"> | null>(null);
 
-  const getValueOf = (str: string[] | string | undefined) => {
-    if (str instanceof Array) {
-      let results;
-      if (str.length !== 0) {
-        results = str.filter((s) => s).join(", ");
-        return results;
-      } else {
-        return "NA";
-      }
-    } else if (str === "" || !str) return "NA";
-
-    return str;
-  };
-
-  const { isLoading, isFetching } = useQuery(
-    "search-id",
-    () => getSingleLead(id as string),
-    {
-      refetchOnWindowFocus: false,
-      onSuccess: (results) => {
-        setLead(results.data);
-        console.log(getEmails(results.data.data.emails));
-      },
-    }
-  );
+  const { isLoading, isFetching } = useSingleLead(id as string, setLead);
 
   return isLoading || isFetching ? (
-    <section className="h-screen w-full flex items-center justify-center">
-      <img src={spinner} alt="" className="h-8 w-8" />
+    <section className="h-screen w-screen flex items-center justify-center">
+      <img src={spinnerDark} />
     </section>
   ) : (
     <section>

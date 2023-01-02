@@ -6,21 +6,13 @@ import Card from "./components/Card";
 import { BarkLead } from "./types";
 import Skeleton from "react-loading-skeleton";
 import "./Bark.css";
+import useBark from "hooks/useBark";
 
 const Bark = () => {
   const [activeID, setActive] = useState(0);
-  const [leads, setLeads] = useState<BarkLead[]>();
+  const [leads, setLeads] = useState<BarkLead[] | null>(null);
 
-  const { isLoading, isFetching } = useQuery(
-    ["bark-data"],
-    () => getBarkData(),
-    {
-      onSuccess: (results) => {
-        setLeads([...results.data]);
-      },
-      refetchOnWindowFocus: false,
-    }
-  );
+  const { isLoading, isFetching } = useBark(setLeads);
 
   return (
     <section>

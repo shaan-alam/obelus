@@ -67,14 +67,12 @@ const ExportModal = ({
 
         return mutatedDocs;
       });
-      console.log(docs);
     } else {
       docs = [...selectedDocuments];
     }
 
     if (exportChoice === "CSV") {
       const csvString = parseToCSV(docs);
-      console.log(csvString);
       return exportCSVDocument(csvString);
     }
 

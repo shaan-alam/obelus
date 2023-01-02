@@ -35,8 +35,6 @@ const Results = ({ results }: IResults) => {
     }
   };
 
-  console.log(results);
-
   return (
     <>
       <div className="bg-gray-50 my-8">

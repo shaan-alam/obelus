@@ -1,3 +1,18 @@
+
+ export const getValueOf = (str: string[] | string | undefined) => {
+    if (str instanceof Array) {
+      let results;
+      if (str.length !== 0) {
+        results = str.filter((s) => s).join(", ");
+        return results;
+      } else {
+        return "NA";
+      }
+    } else if (str === "" || !str) return "NA";
+
+    return str;
+  };
+
 export const getEmails = (
   emails: { address: string; type: string }[]
 ): string | undefined => {
