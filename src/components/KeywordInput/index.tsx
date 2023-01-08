@@ -1,26 +1,16 @@
 import type { IProps } from "./types";
 
-const KeywordInput = ({ keywords, setState }: IProps) => {
+const KeywordInput = ({ keywords, onDelete, onSelect }: IProps) => {
   const setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined = (
     e
   ) => {
     if (e.target.value.endsWith(",")) {
       const newKeyword = e.target.value.substring(0, e.target.value.length - 1);
 
-      setState((state) => ({
-        ...state,
-        keywords: [...state.keywords, newKeyword],
-      }));
+      onSelect(newKeyword);
 
       e.target.value = "";
     }
-  };
-
-  const deleteKeyword = (kwd: string) => {
-    setState((state) => ({
-      ...state,
-      keywords: state.keywords.filter((keyword) => keyword !== kwd),
-    }));
   };
 
   return (
@@ -30,7 +20,7 @@ const KeywordInput = ({ keywords, setState }: IProps) => {
           {keyword}&nbsp;
           <span
             className="inline text-lg cursor-pointer"
-            onClick={() => deleteKeyword(keyword)}
+            onClick={() => onDelete(keyword)}
           >
             &times;
           </span>

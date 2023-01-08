@@ -1,10 +1,8 @@
-import { ifError } from "assert";
-
 export const initialState: IState = {
   first_name: "",
   last_name: "",
-  email: "",
-  linkedin_username: "",
+  emails: [],
+  linkedin_usernames: [],
   keywords: [],
   job_company_names: [],
   job_company_website: "",
@@ -16,8 +14,8 @@ export const initialState: IState = {
 export interface IState {
   first_name: string;
   last_name: string;
-  email: string;
-  linkedin_username: string;
+  emails: string[];
+  linkedin_usernames: string[];
   keywords: string[];
   job_company_names: string[];
   job_company_website: string

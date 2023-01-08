@@ -44,24 +44,24 @@ const Pagination = ({
             </p>
           </Link>
         ))}
-        <Link
-          to={`?page_no=${
-            page_number === numberOfPages ? numberOfPages : page_number + 1
-          }`}
-        >
+        <Link to={`?page_no=${page_number === 200 ? 200 : page_number + 1}`}>
           <p className="page-no h-10 w-10 rounded-md  transition-colors p-2 cursor-pointer mr-8 mb-4">
             Next
           </p>
         </Link>
         <div className="text-gray-600 mb-4">
-          Total {numberOfPages} pages: Go To Page
+          Total 200 pages: Go To Page
           <input
             type="text"
             className="w-[50px] p-2 mx-2 outline-none border border-gray-500 rounded-md"
             value={`${gotoPage}`}
             onChange={(e) => setGotoPage(+e.target.value)}
           />
-          <Link to={`?page_no=${gotoPage === 0 ? 1 : gotoPage}`}>
+          <Link
+            to={`?page_no=${
+              gotoPage === 0 ? 1 : (gotoPage as number) > 200 ? 200 : gotoPage
+            }`}
+          >
             <button className="bg-blue-800 text-white p-2 rounded-md">
               Go
             </button>

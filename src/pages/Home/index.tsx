@@ -117,33 +117,66 @@ const Home: React.FC = () => {
           <label htmlFor="" className="block mb-2 text-gray-800">
             Email
           </label>
-          <input
-            type="text"
-            placeholder="johndoe@domain.com"
-            className="py-3 px-4 rounded-md outline-none border shadow w-full"
-            name="email"
-            value={state.email}
-            onChange={onChange}
+          <KeywordInput
+            keywords={state.emails}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                emails: [...state.emails, value],
+              }));
+            }}
+            onDelete={(value: string) => {
+              setState((state) => ({
+                ...state,
+                emails: state.emails.filter((email) => email !== value),
+              }));
+            }}
           />
         </div>
         <div className="field my-4">
           <label htmlFor="" className="block mb-2 text-gray-800">
             LinkedIn Username
           </label>
-          <input
-            type="text"
-            placeholder="johndoe123"
-            className="py-3 px-4 rounded-md outline-none border shadow w-full"
-            name="linkedin_username"
-            value={state.linkedin_username}
-            onChange={onChange}
+          <KeywordInput
+            keywords={state.linkedin_usernames}
+            onSelect={(value: string) => {
+              setState((state) => ({
+                ...state,
+                linkedin_usernames: [...state.linkedin_usernames, value],
+              }));
+            }}
+            onDelete={(value: string) => {
+              setState((state) => ({
+                ...state,
+                linkedin_usernames: state.linkedin_usernames.filter(
+                  (username) => username !== value
+                ),
+              }));
+            }}
           />
         </div>
         <div className="field my-4">
           <label htmlFor="" className="block mb-2 text-gray-800">
             Company Name
           </label>
-          <LiveSearch
+          <KeywordInput
+            keywords={state.job_company_names}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                job_company_names: [...state.job_company_names, value],
+              }));
+            }}
+            onDelete={(value: string) => {
+              setState((state) => ({
+                ...state,
+                job_company_names: state.job_company_names.filter(
+                  (name) => name !== value
+                ),
+              }));
+            }}
+          />
+          {/* <LiveSearch
             isLoading={isLoadingCountries}
             query={companyNameQuery}
             setQuery={setCompanyNameQuery}
@@ -163,7 +196,7 @@ const Home: React.FC = () => {
                 job_company_names: [...state.job_company_names, company],
               })
             }
-          />
+          /> */}
         </div>
         <div className="field my-4">
           <label htmlFor="" className="block mb-2 text-gray-800">
@@ -182,7 +215,21 @@ const Home: React.FC = () => {
           <label htmlFor="" className="block mb-2 text-gray-800">
             Keywords
           </label>
-          <KeywordInput keywords={state.keywords} setState={setState} />
+          <KeywordInput
+            keywords={state.keywords}
+            onSelect={(value) => {
+              setState((state) => ({
+                ...state,
+                keywords: [...state.keywords, value],
+              }));
+            }}
+            onDelete={(value: string) => {
+              setState((state) => ({
+                ...state,
+                keywords: state.keywords.filter((keyword) => keyword !== value),
+              }));
+            }}
+          />
         </div>
         <div className="field my-4">
           <label htmlFor="" className="block mb-2 text-gray-800">
@@ -221,7 +268,7 @@ const Home: React.FC = () => {
           <button
             className="bg-blue-800 w-full flex items-center justify-center outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
             onClick={() => {
-              navigate("?page_no=1")
+              navigate("?page_no=1");
               refetchLeads();
             }}
             disabled={!checkObjectHasValues(state)}
@@ -235,12 +282,6 @@ const Home: React.FC = () => {
       </div>
       <div className="main-panel sm:w-[80%] p-12 h-screen overflow-y-auto">
         <>
-          {(data?.data?.total_results as number) > 10000 && (
-            <div className="bg-gray-200 rounded-md p-4 text-gray-800 font-semibold">
-              The results for current query is greater than 10K, please narrow
-              down your query!
-            </div>
-          )}
           {!isLoading && !isFetching && !data && (
             <div className="w-full h-screen flex flex-col justify-center items-center">
               <img src={searchSVG} className="h-48 w-48" />
