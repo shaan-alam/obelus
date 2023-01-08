@@ -80,8 +80,8 @@ const Home: React.FC = () => {
   }, [page_number]);
 
   return (
-    <div className="containersm:w-[100%] mx-auto sm:flex block">
-      <div className="block sidebar sm:w-[50%] p-12 h-screen overflow-y-auto">
+    <div className="containersm:w-[100%] mx-auto sm:flex block bg-gray-50">
+      <div className="block sidebar sm:w-[50%] p-12 h-screen overflow-y-auto border-r">
         <div className="logo mb-8">
           <h1 className="text-gray-900 text-xl font-bold">
             Global Database Search
@@ -286,6 +286,18 @@ const Home: React.FC = () => {
       </div>
       <div className="main-panel sm:w-[50%] p-12 h-screen overflow-y-auto">
         <>
+          {!isLoading && !isFetching && data && (
+            <div className="p-4 rounded-md bg-gray-200 text-gray-800 font-semibold">
+              <a
+                href="#!"
+                className="underline flex items-center"
+                onClick={() => download()}
+              >
+                {isDownloading && <img src={spinnerDark} alt="" />}
+                Download Data
+              </a>
+            </div>
+          )}
           {!isLoading && !isFetching && !data && (
             <div className="w-full h-screen flex flex-col justify-center items-center">
               <img src={searchSVG} className="h-48 w-48" />

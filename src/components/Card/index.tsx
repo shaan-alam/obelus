@@ -21,7 +21,7 @@ const Card = ({ card }: { card: Lead }) => {
     <Accordion className="w-full ml-4">
       <AccordionItem>
         {({ open }: { open: boolean }) => (
-          <div className="my-6 card rounded-md py-6 px-8 border">
+          <div className="my-6 card rounded-md py-6 px-8 border bg-white">
             <AccordionHeader className="w-full">
               <div className="accordian-body flex items-center justify-between w-full pb-4">
                 <ul className="text-black text-left">
