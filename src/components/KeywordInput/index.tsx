@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import type { IProps } from "./types";
 
 const KeywordInput = ({ keywords, onDelete, onSelect }: IProps) => {
@@ -14,7 +15,12 @@ const KeywordInput = ({ keywords, onDelete, onSelect }: IProps) => {
   };
 
   return (
-    <div className="tag-input p-2 flex flex-wrap items-center bg-white rounded-md outline-none border shadow w-full">
+    <div
+      className={classNames(
+        "tag-input flex flex-wrap items-center bg-white rounded-md outline-none border shadow w-full",
+        keywords.length > 0 ? "p-2" : ""
+      )}
+    >
       {keywords?.map((keyword) => (
         <div className="tag bg-gray-300 font-normal text-gray-600 mr-1 p-1 rounded-md text-sm mb-1">
           {keyword}&nbsp;
