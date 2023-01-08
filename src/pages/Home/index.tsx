@@ -232,7 +232,7 @@ const Home: React.FC = () => {
       </div>
       <div className="main-panel sm:w-[80%] p-12 h-screen overflow-y-auto">
         <>
-          {(data?.data?.total_results as number) >= 10000 && (
+          {(data?.data?.total_results as number) > 10000 && (
             <div className="bg-gray-200 rounded-md p-4 text-gray-800 font-semibold">
               The results for current query is greater than 10K, please narrow
               down your query!
