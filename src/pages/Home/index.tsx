@@ -220,7 +220,10 @@ const Home: React.FC = () => {
         <div className="field my-4">
           <button
             className="bg-blue-800 w-full flex items-center justify-center outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
-            onClick={() => refetchLeads()}
+            onClick={() => {
+              navigate("?page_no=1")
+              refetchLeads();
+            }}
             disabled={!checkObjectHasValues(state)}
           >
             {(isLoading || isFetching) && (
