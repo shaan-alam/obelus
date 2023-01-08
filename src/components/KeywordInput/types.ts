@@ -1,11 +1,7 @@
 import { IState } from "../../pages/Home/types";
 
-export interface Keyword {
-  id: string;
-  text: string;
-}
 
 export interface IProps {
-  keywords: Keyword[];
+  keywords: string[];
   setState: React.Dispatch<React.SetStateAction<IState>>
 }

@@ -14,15 +14,9 @@
   };
 
 export const getEmails = (
-  emails: { address: string; type: string }[]
-): string | undefined => {
-  let results = emails?.map((email) => email.address);
-
-  if (results?.length !== 0) {
-    return results?.join(", ");
-  } else {
-    return "NA";
-  }
+  emails: string[]
+) => {
+  return emails?.join(", ");
 };
 
 export const checkObjectHasValues = <T,>(obj: T) => {

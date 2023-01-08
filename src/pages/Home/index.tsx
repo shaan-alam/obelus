@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import Skeleton from "react-loading-skeleton";
 import { useLocation } from "react-router-dom";
 import classNames from "classnames";
 import "react-loading-skeleton/dist/skeleton.css";
-import { spinner, spinnerDark } from "assets";
+import { spinner, spinnerDark, noResults } from "assets";
 import { Error, initialState, IState } from "./types";
 import {
   Results,
@@ -51,6 +50,8 @@ const Home: React.FC = () => {
     isError,
   } = useLeads(state, page_number, setError);
 
+  console.log(error);
+
   const onChange: React.ChangeEventHandler<HTMLInputElement> | undefined = (
     e
   ) => {
@@ -75,169 +76,169 @@ const Home: React.FC = () => {
   useEffect(() => {
     if (checkObjectHasValues(state)) refetchLeads();
 
-    window.scrollTo({ top: 0 });
+    const mainPanel = document.querySelector(".main-panel");
+    mainPanel?.scrollTo({ top: 0 });
   }, [page_number]);
 
   return (
-    <div className="App">
-      <div className="w-[80%] mx-auto my-8 max-w-5xl">
-        <h1 className="text-4xl text-center font-semibold my-10">
-          Database Search
-        </h1>
-        <div className="sm:grid grid-cols-3 gap-8">
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              First Name
-            </label>
-            <input
-              type="text"
-              placeholder="John"
-              className="py-3 px-4 rounded-md outline-none border bg-white shadow w-full"
-              value={state?.first_name}
-              name="first_name"
-              onChange={onChange}
-            />
-          </div>
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              Last Name
-            </label>
-            <input
-              type="text"
-              placeholder="Doe"
-              className="py-3 px-4 rounded-md outline-none border shadow w-full"
-              name="last_name"
-              value={state.last_name}
-              onChange={onChange}
-            />
-          </div>
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              Email
-            </label>
-            <input
-              type="text"
-              placeholder="johndoe@domain.com"
-              className="py-3 px-4 rounded-md outline-none border shadow w-full"
-              name="email"
-              value={state.email}
-              onChange={onChange}
-            />
-          </div>
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              LinkedIn Username
-            </label>
-            <input
-              type="text"
-              placeholder="johndoe123"
-              className="py-3 px-4 rounded-md outline-none border shadow w-full"
-              name="linkedin_username"
-              value={state.linkedin_username}
-              onChange={onChange}
-            />
-          </div>
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              Company Name
-            </label>
-            <LiveSearch
-              isLoading={isLoadingCountries}
-              query={companyNameQuery}
-              setQuery={setCompanyNameQuery}
-              options={companyOptions}
-              values={state.job_company_names}
-              onDelete={(comanpyName) => {
-                setState({
-                  ...state,
-                  job_company_names: state.job_company_names.filter(
-                    (company) => company !== comanpyName
-                  ),
-                });
-              }}
-              onSelect={(company) =>
-                setState({
-                  ...state,
-                  job_company_names: [...state.job_company_names, company],
-                })
-              }
-            />
-          </div>
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              Company Website
-            </label>
-            <input
-              type="text"
-              placeholder="www.yourwebsite.com"
-              className="py-3 px-4 rounded-md outline-none border shadow w-full"
-              name="job_company_website"
-              value={state.job_company_website}
-              onChange={onChange}
-            />
-          </div>
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              Keywords
-            </label>
-            <KeywordInput keywords={state.keywords} setState={setState} />
-          </div>
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              Country
-            </label>
-            <MultiSelect
-              options={countries}
-              values={state.countries}
-              onDelete={(countryName) => {
-                setState({
-                  ...state,
-                  countries: state.countries.filter(
-                    (country) => country !== countryName
-                  ),
-                });
-              }}
-              onSelect={(country) =>
-                setState({ ...state, countries: [...state.countries, country] })
-              }
-            />
-          </div>
-          <div className="my-4 sm:my-0">
-            <label htmlFor="" className="block font-medium mb-2">
-              Phone
-            </label>
-            <input
-              type="text"
-              placeholder="555-555-5555"
-              className="py-3 px-4 rounded-md outline-none border shadow w-full"
-              name="phone"
-              value={state.phone}
-              onChange={onChange}
-            />
-          </div>
+    <div className="containersm:w-[100%] mx-auto sm:flex block">
+      <div className="block sidebar sm:w-[20%] p-12 h-screen overflow-y-auto">
+        <div className="field my-4">
+          <label htmlFor="" className="block mb-2 text-gray-800">
+            First Name
+          </label>
+          <input
+            type="text"
+            placeholder="John"
+            className="py-3 px-4 rounded-md outline-none border bg-white shadow w-full"
+            value={state?.first_name}
+            name="first_name"
+            onChange={onChange}
+          />
         </div>
-        <div className="flex justify-center md:justify-end py-5">
+        <div className="field my-4">
+          <label htmlFor="" className="block mb-2 text-gray-800">
+            Last Name
+          </label>
+          <input
+            type="text"
+            placeholder="Doe"
+            className="py-3 px-4 rounded-md outline-none border shadow w-full"
+            name="last_name"
+            value={state.last_name}
+            onChange={onChange}
+          />
+        </div>
+        <div className="field my-4">
+          <label htmlFor="" className="block mb-2 text-gray-800">
+            Email
+          </label>
+          <input
+            type="text"
+            placeholder="johndoe@domain.com"
+            className="py-3 px-4 rounded-md outline-none border shadow w-full"
+            name="email"
+            value={state.email}
+            onChange={onChange}
+          />
+        </div>
+        <div className="field my-4">
+          <label htmlFor="" className="block mb-2 text-gray-800">
+            LinkedIn Username
+          </label>
+          <input
+            type="text"
+            placeholder="johndoe123"
+            className="py-3 px-4 rounded-md outline-none border shadow w-full"
+            name="linkedin_username"
+            value={state.linkedin_username}
+            onChange={onChange}
+          />
+        </div>
+        <div className="field my-4">
+          <label htmlFor="" className="block mb-2 text-gray-800">
+            Company Name
+          </label>
+          <LiveSearch
+            isLoading={isLoadingCountries}
+            query={companyNameQuery}
+            setQuery={setCompanyNameQuery}
+            options={companyOptions}
+            values={state.job_company_names}
+            onDelete={(comanpyName) => {
+              setState({
+                ...state,
+                job_company_names: state.job_company_names.filter(
+                  (company) => company !== comanpyName
+                ),
+              });
+            }}
+            onSelect={(company) =>
+              setState({
+                ...state,
+                job_company_names: [...state.job_company_names, company],
+              })
+            }
+          />
+        </div>
+        <div className="field my-4">
+          <label htmlFor="" className="block mb-2 text-gray-800">
+            Company Website
+          </label>
+          <input
+            type="text"
+            placeholder="www.yourwebsite.com"
+            className="py-3 px-4 rounded-md outline-none border shadow w-full"
+            name="job_company_website"
+            value={state.job_company_website}
+            onChange={onChange}
+          />
+        </div>
+        <div className="field my-4">
+          <label htmlFor="" className="block mb-2 text-gray-800">
+            Keywords
+          </label>
+          <KeywordInput keywords={state.keywords} setState={setState} />
+        </div>
+        <div className="field my-4">
+          <label htmlFor="" className="block mb-2 text-gray-800">
+            Country
+          </label>
+          <MultiSelect
+            options={countries}
+            values={state.countries}
+            onDelete={(countryName) => {
+              setState({
+                ...state,
+                countries: state.countries.filter(
+                  (country) => country !== countryName
+                ),
+              });
+            }}
+            onSelect={(country) =>
+              setState({ ...state, countries: [...state.countries, country] })
+            }
+          />
+        </div>
+        <div className="field my-4">
+          <label htmlFor="" className="block mb-2 text-gray-800">
+            Phone
+          </label>
+          <input
+            type="text"
+            placeholder="555-555-5555"
+            className="py-3 px-4 rounded-md outline-none border shadow w-full"
+            name="phone"
+            value={state.phone}
+            onChange={onChange}
+          />
+        </div>
+        <div className="field my-4">
           <button
-            className="bg-blue-800 flex items-center justify-between outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
+            className="bg-blue-800 w-full flex items-center justify-center outline-none font-semibold hover:bg-blue-900 text-white rounded-md py-2.5 shadow px-10 my-4 disabled:bg-gray-400 transition-all"
             onClick={() => refetchLeads()}
             disabled={!checkObjectHasValues(state)}
           >
             {(isLoading || isFetching) && (
-              <img src={spinner} className="h-6 w-6 mr-2" />
+              <img src={spinnerDark} className="h-6 w-6 mr-2" />
             )}
             Search
           </button>
         </div>
-
+      </div>
+      <div className="main-panel sm:w-[80%] p-12 h-screen overflow-y-auto">
         <>
           {(isLoading || isFetching) && (
-            <div className="w-full">
-              <Skeleton count={6} height={100} className="mb-4" />
+            <div className="w-full h-screen flex items-center justify-center">
+              <img src={spinnerDark} alt="" />
             </div>
           )}
-          {error?.status && !isFetching && (
-            <div className="bg-red-100 flex items-center p-8 text-center font-semibold text-red-600 rounded-md">
-              <p>{error.text}</p>
+          {!data && error?.status && !isFetching && (
+            <div className="h-[90vh] flex flex-col items-center justify-center p-8 text-center">
+              {error.status === 404 && (
+                <img src={noResults} className="h-48 w-48 mb-4" />
+              )}
+              <p className="text-gray-500">{error.text}</p>
               {error.status === 507 && (
                 <button
                   className={classNames(
@@ -256,7 +257,10 @@ const Home: React.FC = () => {
           )}
           {isFetched && data && !isError && !isFetching && (
             <>
-              <Results results={data.data} />
+              <Results
+                results={data.data.results}
+                totalResults={data.data.total_results}
+              />
               {data.data.total_results > 50 && (
                 <Pagination
                   total_results={data?.data.total_results}

@@ -141,19 +141,19 @@ const BarkPanel = () => {
               <div className="p-4 bg-gray-100 rounded-md my-4">
                 <div className="">
                   <div className="field mb-2 text-gray-600">
-                    Full Name: {match.data.full_name || "NA"}
+                    Full Name: {match._source.full_name || "NA"}
                   </div>
                   <div className="field mb-2 text-gray-600">
-                    Address: {match.data.location_street_address || "NA"}
+                    Address: {match._source.location_name || "NA"}
                   </div>
                   <div className="field mb-2 text-gray-600">
-                    Email: {getEmails(match.data.emails) || "NA"}
+                    Email: {getEmails(match._source.emails) || "NA"}
                   </div>
                   <div className="field mb-2 text-gray-600">
                     Phone:&nbsp;
-                    {match.data.phone_numbers.map((phone) => (
+                    {/* {match._source.phone_numbers.map((phone) => (
                       <span>phone</span>
-                    )) || "NA"}
+                    )) || "NA"} */}
                   </div>
                 </div>
               </div>

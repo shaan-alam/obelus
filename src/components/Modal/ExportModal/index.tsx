@@ -62,7 +62,7 @@ const ExportModal = ({
         const mutatedDocs: Record<string, any> = {};
 
         selectedFields.forEach((field) => {
-          mutatedDocs[field] = (doc.data as Record<string, any>)[field];
+          mutatedDocs[field] = (doc._source as Record<string, any>)[field];
         });
 
         return mutatedDocs;

@@ -1,95 +1,92 @@
-export interface School {
-    name: string;
-    type: string;
-    id: string;
-    location: string;
-    linkedin_url: string;
-    facebook_url: string;
-    twitter_url: string;
-    linkedin_id: string;
-    website: string;
-    domain: string;
-}
 
-export interface Education {
-    school: School;
-    end_date: string;
-    start_date: string;
-    gpa: string;
-    degrees: string[];
-    majors: string[];
-    minors: string[];
-    summary: string;
-}
+    export interface Location {
+        name: string;
+        locality?: any;
+        region: string;
+        metro?: any;
+        country: string;
+        continent: string;
+        street_address?: any;
+        address_line_2?: any;
+        postal_code?: any;
+        geo?: any;
+    }
 
-export interface Location {
-    name: string;
-    locality: string;
-    region: string;
-    metro: string;
-    country: string;
-    continent: string;
-    street_address: string;
-    address_line_2: string;
-    postal_code: string;
-    geo: string;
-}
-
-export interface Company {
-    name: string;
-    size: string;
-    id: string;
-    founded: string;
-    industry: string;
-    location: Location;
-    linkedin_url: string;
-    linkedin_id: string;
-    facebook_url: string;
-    twitter_url: string;
-    website: string;
-}
-
-export interface Title {
-    name: string;
-    role: string;
-    sub_role: string;
-    levels: any[];
-}
-
-export interface Experience {
-    company: Company;
-    start_date: any;
-    end_date: any;
-    title: Title;
-    location_names: string[];
-    is_primary: boolean;
-    summary: string;
-}
-
-export interface Profile {
-    network: string;
-    id: string;
-    url: string;
-    username: string;
-}
-
-export interface VersionStatus {
-    status: string;
-    contains: any[];
-    previous_version: string;
-    current_version: string;
-}
-
-export interface Lead {
-    data: {
+    export interface Company {
+        name: string;
+        size: string;
         id: string;
+        founded: string;
+        industry: string;
+        location: Location;
+        linkedin_url: string;
+        linkedin_id: string;
+        facebook_url?: any;
+        twitter_url?: any;
+        website?: any;
+    }
+
+    export interface Title {
+        name: string;
+        role: string;
+        sub_role?: any;
+        levels: any[];
+    }
+
+    export interface Experience {
+        company: Company;
+        location_names: any[];
+        end_date?: any;
+        start_date?: any;
+        title: Title;
+        is_primary: boolean;
+        summary?: any;
+    }
+
+    export interface Profile {
+        network: string;
+        id: string;
+        url: string;
+        username: string;
+    }
+    export interface School {
+        name: string;
+        type: string;
+        id: string;
+        location: string;
+        linkedin_url: string;
+        facebook_url: string;
+        twitter_url: string;
+        linkedin_id: string;
+        website: string;
+        domain: string;
+    }
+    export interface Education {
+        school: School;
+        degrees: string[];
+        start_date: string;
+        end_date: string;
+        majors: string[];
+        minors: string[];
+        gpa: string;
+        summary: string;
+    } 
+
+    export interface VersionStatus {
+        status: string;
+        contains: any[];
+        previous_version: string;
+        current_version: string;
+    }
+  
+    export interface Source {
         full_name: string;
         first_name: string;
         middle_initial: string;
         middle_name: string;
         last_name: string;
         gender: string;
-        birth_year: number;
+        birth_year: string;
         birth_date: string;
         linkedin_url: string;
         linkedin_username: string;
@@ -107,7 +104,7 @@ export interface Lead {
         job_title: string;
         job_title_role: string;
         job_title_sub_role: string;
-        job_title_levels: any[];
+        job_title_levels: string[];
         job_company_id: string;
         job_company_name: string;
         job_company_website: string;
@@ -118,7 +115,7 @@ export interface Lead {
         job_company_linkedin_id: string;
         job_company_facebook_url: string;
         job_company_twitter_url: string;
-        job_company_location_name: string;
+        job_company_location_name: string
         job_company_location_locality: string;
         job_company_location_metro: string;
         job_company_location_region: string;
@@ -142,15 +139,12 @@ export interface Lead {
         location_postal_code: string;
         location_geo: string;
         location_last_updated: string;
-        linkedin_connections: string;
-        inferred_salary: string;
-        inferred_years_experience: string;
+        linkedin_connections: number;
+        inferred_salary: string[];
+        inferred_years_experience: any;
         summary: string;
         phone_numbers: string[];
-        emails: {
-            address: string;
-            type: string
-        }[],
+        emails: string[];
         interests: string[];
         skills: string[];
         location_names: string[];
@@ -160,11 +154,17 @@ export interface Lead {
         experience: Experience[];
         education: Education[];
         profiles: Profile[];
-        certifications: string[];
+        certifications: any[];
         languages: string[];
         version_status: VersionStatus;
     }
-}
+
+    export interface Lead {
+        _index: string;
+        _id: string;
+        _score: number;
+        _source: Source;
+    }
 
 export interface ILeadResponse {
     results: Lead[],

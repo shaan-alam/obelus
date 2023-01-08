@@ -13,6 +13,7 @@ const useLeads = (state: IState, page_number: string, setError: Dispatch<SetStat
       getSearchResults({ ...state, page_no: (page_number as string) || "1" }),
     {
       enabled: false,
+      refetchOnWindowFocus: false,
       onError: (err) => {
         const error = err as AxiosError;
         if (error?.response?.status === 507) {

@@ -12,7 +12,7 @@ export const api = axios.create({
 });
 
 export const getSearchResults = (parameters: IParameters) =>
-  api.post(`/search?page_number=${+parameters.page_no - 1}`, {
+  api.post<ILeadResponse>(`/search?page_number=${+parameters.page_no - 1}`, {
     ...parameters,
   });
 
@@ -32,7 +32,6 @@ export const fetchCompanyNames = (
   companyName: string,
   options: { [s: string]: unknown }
 ) => {
-  console.log("com", companyName);
   return api.get<string[]>(`/search/company/?company_name=${companyName}`, {
     ...options,
   });

@@ -7,34 +7,31 @@ import {
   AccordionHeader,
   AccordionItem,
 } from "react-headless-accordion";
-import classNames from "classnames";
 
 const Card = ({ card }: { card: Lead }) => {
-  const { data } = card;
+  const { _source: data, _id } = card;
   const capitalizeFirstLetter = (str: string) => {
     return str !== null ? str.charAt(0).toUpperCase() + str.slice(1) : "";
   };
+
+  console.log(card);
 
   return (
     <Accordion className="w-full ml-4">
       <AccordionItem>
         {({ open }: { open: boolean }) => (
-          <div
-            className={classNames(
-              "my-6 card bg-white rounded-md py-6 px-8 border"
-            )}
-          >
+          <div className="my-6 card rounded-md py-6 px-8 border">
             <AccordionHeader className="w-full">
               <div className="accordian-body flex items-center justify-between w-full pb-4">
                 <ul className="text-black text-left">
-                  <li className="mb-4 font-bold text-xl">
+                  <li className="mb-4 font-bold text-blue-900 text-2xl">
                     {capitalizeFirstLetter(data?.first_name)}&nbsp;
                     {capitalizeFirstLetter(data?.last_name)}
                   </li>
                   <li className="font-medium">
                     Email:&nbsp;
                     <span className="text-black font-normal">
-                      {data.emails[0]?.address || "NA"}
+                      {data.emails[0] || "NA"}
                     </span>
                   </li>
                   <li className="font-medium">
@@ -76,14 +73,14 @@ const Card = ({ card }: { card: Lead }) => {
                 <div className="text-gray-500 sm:grid grid-cols-2">
                   <div className="col">
                     <div className="mb-4">
-                      Gender: {capitalizeFirstLetter(data.gender)}
+                      Gender: {capitalizeFirstLetter(data.gender) || "NA"}
                     </div>
                     <div className="mb-4">
                       Job Company Name:&nbsp;
                       {capitalizeFirstLetter(data.job_company_name) || "NA"}
                     </div>
                     <div className="mb-4">
-                      Job Title: {capitalizeFirstLetter(data.job_title)}
+                      Job Title: {capitalizeFirstLetter(data?.job_title)}
                     </div>
                     <div className="mb-4">
                       Job Role:&nbsp;
@@ -113,7 +110,7 @@ const Card = ({ card }: { card: Lead }) => {
                     </div>
                   </div>
                 </div>
-                <Link to={`/profile/${data.id}`}>
+                <Link to={`/profile/${_id}`}>
                   <div className="flex justify-end">
                     <a
                       href="#!"
