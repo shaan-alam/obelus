@@ -2,14 +2,18 @@
  export const getValueOf = (str: string[] | string | undefined) => {
     if (str instanceof Array) {
       let results;
+      console.log(1)
       if (str.length !== 0) {
+        console.log(1.1)
         results = str.filter((s) => s).join(", ");
         return results;
       } else {
+        console.log(1.2)
         return "NA";
       }
-    } else if (str === "" || !str) return "NA";
-
+    }
+    
+    console.log(2)
     return str;
   };
 

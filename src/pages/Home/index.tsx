@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import "react-loading-skeleton/dist/skeleton.css";
-import { spinner, spinnerDark, noResults } from "assets";
+import { spinner, spinnerDark, noResults, searchSVG } from "assets";
 import { Error, initialState, IState } from "./types";
 import {
   Results,
@@ -23,6 +23,7 @@ import {
 
 const Home: React.FC = () => {
   const client = useQueryClient();
+  const navigate = useNavigate();
   const [state, setState] = useState<IState>(initialState);
   const [error, setError] = useState<Error>(null);
   const [companyOptions, setCompanyOptions] = useState<string[] | undefined>(
@@ -49,8 +50,6 @@ const Home: React.FC = () => {
     isFetched,
     isError,
   } = useLeads(state, page_number, setError);
-
-  console.log(error);
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> | undefined = (
     e
@@ -83,6 +82,11 @@ const Home: React.FC = () => {
   return (
     <div className="containersm:w-[100%] mx-auto sm:flex block">
       <div className="block sidebar sm:w-[20%] p-12 h-screen overflow-y-auto">
+        <div className="logo mb-8">
+          <h1 className="text-gray-900 text-xl font-bold">
+            Global Database Search
+          </h1>
+        </div>
         <div className="field my-4">
           <label htmlFor="" className="block mb-2 text-gray-800">
             First Name
@@ -220,7 +224,7 @@ const Home: React.FC = () => {
             disabled={!checkObjectHasValues(state)}
           >
             {(isLoading || isFetching) && (
-              <img src={spinnerDark} className="h-6 w-6 mr-2" />
+              <img src={spinner} className="h-6 w-6 mr-2" />
             )}
             Search
           </button>
@@ -228,6 +232,14 @@ const Home: React.FC = () => {
       </div>
       <div className="main-panel sm:w-[80%] p-12 h-screen overflow-y-auto">
         <>
+          {!isLoading && !isFetching && !data && (
+            <div className="w-full h-screen flex flex-col justify-center items-center">
+              <img src={searchSVG} className="h-48 w-48" />
+              <p className="mt-4 text-gray-500">
+                Use filters in the sidebar to search...
+              </p>
+            </div>
+          )}
           {(isLoading || isFetching) && (
             <div className="w-full h-screen flex items-center justify-center">
               <img src={spinnerDark} alt="" />

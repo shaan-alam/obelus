@@ -10,12 +10,12 @@ import {
   AccordionHeader,
 } from "react-headless-accordion";
 import { v4 } from "uuid";
-import { getEmails, getValueOf } from "util/";
-import useSingleLead from "hooks/useSingleLead";
+import { getEmails } from "util/";
+import { useSingleLead } from "hooks";
 
 const ProfilePage = () => {
   const { id } = useParams<{ id: string }>();
-  const [lead, setLead] = useState<Pick<Lead, "_source"> | null>(null);
+  const [lead, setLead] = useState<Lead["_source"] | null>(null);
 
   const { isLoading, isFetching } = useSingleLead(id as string, setLead);
 
@@ -38,22 +38,22 @@ const ProfilePage = () => {
           </h1>
           <div className="sm:grid grid-cols-3 gap-4">
             <div className="text-gray-600 mb-2 sm:mb-0">
-              Full Name: {getValueOf(lead?._source?.full_name)}
+              Full Name: {lead?.full_name || "NA"}
             </div>
             <div className="text-gray-600 mb-2 sm:mb-0">
-              Gender: {getValueOf(lead?._source?.gender)}
+              Gender: {lead?.gender || "NA"}
             </div>
             <div className="text-gray-600 mb-2 sm:mb-0">
-              DOB: {getValueOf(lead?._source?.birth_date)}
+              DOB: {lead?.birth_date || "NA"}
             </div>
             <div className="text-gray-600 mb-2 sm:mb-0">
-              First Name: {getValueOf(lead?._source?.first_name)}
+              First Name: {lead?.first_name || "NA"}
             </div>
             <div className="text-gray-600 mb-2 sm:mb-0">
-              Last Name: {getValueOf(lead?._source?.last_name)}
+              Last Name: {lead?.last_name || "NA"}
             </div>
             <div className="text-gray-600 mb-2 sm:mb-0">
-              Middle Name: {getValueOf(lead?._source?.middle_name)}
+              Middle Name: {lead?.middle_name || "NA"}
             </div>
           </div>
         </div>
@@ -65,11 +65,11 @@ const ProfilePage = () => {
           <div className="sm:grid grid-cols-2">
             <div className="text-gray-600 mb-2 sm:mb-0">
               Emails:&nbsp;
-              {getEmails(lead?._source?.emails as string[])}
+              {getEmails(lead?.emails as string[])}
             </div>
             <div className="text-gray-600 mb-2 sm:mb-0">
               Phone:&nbsp;
-              {getValueOf(lead?._source?.phone_numbers)}
+              {lead?.phone_numbers || "NA"}
             </div>
           </div>
         </div>
@@ -79,27 +79,25 @@ const ProfilePage = () => {
           <div className="sm:grid grid-cols-2 gap-4">
             <div className="col">
               <div className="text-gray-600 mb-2">
-                LinkedIn Username:{" "}
-                {getValueOf(lead?._source?.linkedin_username)}
+                LinkedIn Username: {lead?.linkedin_username || "NA"}
               </div>
               <div className="text-gray-600 mb-2">
                 LinkedIn Connections:&nbsp;
-                {lead?._source?.linkedin_connections}
+                {lead?.linkedin_connections}
               </div>
               <div className="text-gray-600 mb-2">
-                Summary: {getValueOf(lead?._source?.summary)}
+                Summary: {lead?.summary || "NA"}
               </div>
             </div>
             <div className="col">
               <div className="text-gray-600 mb-2">
-                Facebook Username:{" "}
-                {getValueOf(lead?._source?.facebook_username)}
+                Facebook Username: {lead?.facebook_username || "NA"}
               </div>
               <div className="text-gray-600 mb-2">
-                GitHub Username: {getValueOf(lead?._source?.github_username)}
+                GitHub Username: {lead?.github_username || "NA"}
               </div>
               <div className="text-gray-600 mb-2">
-                Twitter Username: {getValueOf(lead?._source?.twitter_username)}
+                Twitter Username: {lead?.twitter_username || "NA"}
               </div>
             </div>
           </div>
@@ -109,26 +107,26 @@ const ProfilePage = () => {
           <h1 className="text-gray-800 font-bold text-2xl my-4">Job Details</h1>
           <div className="sm:grid grid-cols-2">
             <div className="text-gray-600 mb-2">
-              Industry: {getValueOf(lead?._source?.industry)}
+              Industry: {lead?.industry || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
-              Job Start Date: {getValueOf(lead?._source?.job_start_date)}
+              Job Start Date: {lead?.job_start_date || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
-              Job Title: {getValueOf(lead?._source?.job_title)}
+              Job Title: {lead?.job_title || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
-              Job Title Role: {getValueOf(lead?._source?.job_title_role)}
+              Job Title Role: {lead?.job_title_role || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
-              Inferred Salary: {getValueOf(lead?._source?.inferred_salary)}
+              Inferred Salary: {lead?.inferred_salary || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Inferred Years Experience:&nbsp;
-              {getValueOf(lead?._source?.inferred_years_experience)}
+              {lead?.inferred_years_experience || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
-              Job Summary: {getValueOf(lead?._source?.job_summary)}
+              Job Summary: {lead?.job_summary || "NA"}
             </div>
           </div>
         </div>
@@ -139,46 +137,46 @@ const ProfilePage = () => {
           </h1>
           <div className="md:grid grid-cols-2">
             <div className="text-gray-600 mb-2">
-              Job Company Name: {getValueOf(lead?._source?.job_company_name)}
+              Job Company Name: {lead?.job_company_name || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
-              Job Company Size: {getValueOf(lead?._source?.job_company_size)}
+              Job Company Size: {lead?.job_company_size || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company Website:&nbsp;
-              {getValueOf(lead?._source?.job_company_website)}
+              {lead?.job_company_website || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company Founded:&nbsp;
-              {getValueOf(lead?._source?.job_company_founded)}
+              {lead?.job_company_founded || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company Industry:&nbsp;
-              {getValueOf(lead?._source?.job_company_industry)}
+              {lead?.job_company_industry || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company Location Name:&nbsp;
-              {getValueOf(lead?._source?.job_company_location_name)}
+              {lead?.job_company_location_name || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company LinkedIn URL:&nbsp;
-              {getValueOf(lead?._source?.job_company_linkedin_url)}
+              {lead?.job_company_linkedin_url || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company Location Postal Code:&nbsp;
-              {getValueOf(lead?._source?.job_company_location_postal_code)}
+              {lead?.job_company_location_postal_code || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company Twitter URL:&nbsp;
-              {getValueOf(lead?._source?.job_company_twitter_url)}
+              {lead?.job_company_twitter_url || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company Location Country:&nbsp;
-              {getValueOf(lead?._source?.job_company_location_country)}
+              {lead?.job_company_location_country || "NA"}
             </div>
             <div className="text-gray-600 mb-2">
               Job Company Facebook URL:&nbsp;
-              {getValueOf(lead?._source?.job_company_facebook_url)}
+              {lead?.job_company_facebook_url || "NA"}
             </div>
           </div>
         </div>
@@ -187,7 +185,7 @@ const ProfilePage = () => {
             Experience Details
           </h1>
           <div className="text-gray-600 sm:grid grid-cols-2 gap-4">
-            {lead?._source?.experience.map((experience) => (
+            {lead?.experience.map((experience) => (
               <Accordion className="my-8" key={v4()}>
                 <AccordionItem>
                   <AccordionHeader>
@@ -199,13 +197,13 @@ const ProfilePage = () => {
                     <div className="accordion-body">
                       <p className="mb-1">Title: {experience.title.name}</p>
                       <p className="mb-1">
-                        Start Date: {getValueOf(experience.start_date)}
+                        Start Date: {experience.start_date || "NA"}
                       </p>
                       <p className="mb-1">
-                        End Date: {getValueOf(experience.end_date)}
+                        End Date: {experience.end_date || "NA"}
                       </p>
                       <p className="mb-1">
-                        Summary: {getValueOf(experience.summary)}
+                        Summary: {experience.summary || "NA"}
                       </p>
                     </div>
                   </AccordionBody>
@@ -221,17 +219,17 @@ const ProfilePage = () => {
           </h1>
           <div className="sm:grid grid-cols-2 gap-4">
             <div className="text-gray-600">
-              Location Name: {getValueOf(lead?._source?.location_name)}
+              Location Name: {lead?.location_name || "NA"}
             </div>
             <div className="text-gray-600">
-              Location Region: {getValueOf(lead?._source?.location_region)}
+              Location Region: {lead?.location_region || "NA"}
             </div>
             <div className="text-gray-600">
               Location Postal Code:&nbsp;
-              {getValueOf(lead?._source?.location_postal_code)}
+              {lead?.location_postal_code || "NA"}
             </div>
             <div className="text-gray-600">
-              Location Country: {getValueOf(lead?._source?.location_country)}
+              Location Country: {lead?.location_country || "NA"}
             </div>
           </div>
         </div>

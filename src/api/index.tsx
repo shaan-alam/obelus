@@ -16,7 +16,7 @@ export const getSearchResults = (parameters: IParameters) =>
     ...parameters,
   });
 
-export const getSingleLead = (id: string) => api.get<Lead>(`/search/${id}`);
+export const getSingleLead = (id: string) => api.get<Lead['_source']>(`/search/${id}`);
 
 export const getBarkData = () => api.get<BarkLead[]>("/leads");
 
