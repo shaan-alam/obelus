@@ -7,6 +7,7 @@ import {
   AccordionHeader,
   AccordionItem,
 } from "react-headless-accordion";
+import { getValueOf } from "util/";
 
 const Card = ({ card }: { card: Lead }) => {
   const { _source: data, _id } = card;
@@ -31,7 +32,7 @@ const Card = ({ card }: { card: Lead }) => {
                   <li className="font-medium">
                     Email:&nbsp;
                     <span className="text-black font-normal">
-                      {data.emails[0] || "NA"}
+                      {getValueOf(data.emails) || "NA"}
                     </span>
                   </li>
                   <li className="font-medium">
