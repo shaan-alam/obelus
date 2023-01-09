@@ -1,5 +1,4 @@
-# Pagination theek krde
-# button theek krde
+
 
 # Getting Started with Create React App
 
