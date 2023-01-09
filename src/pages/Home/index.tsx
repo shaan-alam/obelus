@@ -294,7 +294,7 @@ const Home: React.FC = () => {
                 onClick={() => download()}
               >
                 {isDownloading && <img src={spinnerDark} alt="" />}
-                Download Data
+                Download all results (limit 10k)
               </a>
             </div>
           )}
