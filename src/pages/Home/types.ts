@@ -8,6 +8,8 @@ export const initialState: IState = {
   job_company_website: "",
   countries: [],
   phone: "",
+  schoolNames: [],
+  education: []
 }
 
 
@@ -20,7 +22,9 @@ export interface IState {
   job_company_names: string[];
   job_company_website: string
   countries: string[]
-  phone: string
+  phone: string,
+  schoolNames: string[],
+  education: string[]
 }
 
 export type Error = { status: number, text: string } | null

@@ -119,6 +119,7 @@ const Home: React.FC = () => {
               Email
             </label>
             <KeywordInput
+              placeholder="Enter Email"
               keywords={state.emails}
               onSelect={(value) => {
                 setState((state) => ({
@@ -139,6 +140,7 @@ const Home: React.FC = () => {
               LinkedIn Username
             </label>
             <KeywordInput
+              placeholder="Enter Linkedin Username"
               keywords={state.linkedin_usernames}
               onSelect={(value: string) => {
                 setState((state) => ({
@@ -161,6 +163,7 @@ const Home: React.FC = () => {
               Company Name
             </label>
             <KeywordInput
+              placeholder="Enter Company Name"
               keywords={state.job_company_names}
               onSelect={(value) => {
                 setState((state) => ({
@@ -217,6 +220,7 @@ const Home: React.FC = () => {
               Keywords
             </label>
             <KeywordInput
+              placeholder="Enter Keywords"
               keywords={state.keywords}
               onSelect={(value) => {
                 setState((state) => ({
@@ -265,6 +269,52 @@ const Home: React.FC = () => {
               name="phone"
               value={state.phone}
               onChange={onChange}
+            />
+          </div>
+          <div className="field my-4">
+            <label htmlFor="" className="block mb-2 text-gray-800">
+              School Name
+            </label>
+            <KeywordInput
+              placeholder="Enter School Names"
+              keywords={state.schoolNames}
+              onSelect={(value) => {
+                setState((state) => ({
+                  ...state,
+                  schoolNames: [...state.schoolNames, value],
+                }));
+              }}
+              onDelete={(value: string) => {
+                setState((state) => ({
+                  ...state,
+                  schoolNames: state.schoolNames.filter(
+                    (school) => school !== value
+                  ),
+                }));
+              }}
+            />
+          </div>
+          <div className="field my-4">
+            <label htmlFor="" className="block mb-2 text-gray-800">
+              Education
+            </label>
+            <KeywordInput
+              placeholder="Enter Education"
+              keywords={state.education}
+              onSelect={(value) => {
+                setState((state) => ({
+                  ...state,
+                  education: [...state.education, value],
+                }));
+              }}
+              onDelete={(value: string) => {
+                setState((state) => ({
+                  ...state,
+                  education: state.education.filter(
+                    (school) => school !== value
+                  ),
+                }));
+              }}
             />
           </div>
         </div>

@@ -1,7 +1,12 @@
 import classNames from "classnames";
 import type { IProps } from "./types";
 
-const KeywordInput = ({ keywords, onDelete, onSelect }: IProps) => {
+const KeywordInput = ({
+  keywords,
+  onDelete,
+  onSelect,
+  placeholder,
+}: IProps) => {
   const setKeywords: React.ChangeEventHandler<HTMLInputElement> | undefined = (
     e
   ) => {
@@ -33,8 +38,8 @@ const KeywordInput = ({ keywords, onDelete, onSelect }: IProps) => {
         </div>
       ))}
       <input
+        placeholder={placeholder}
         type="text"
-        placeholder="Enter keyword"
         className="focus:outline-none w-[90%] px-4 py-3 "
         onChange={setKeywords}
       />
