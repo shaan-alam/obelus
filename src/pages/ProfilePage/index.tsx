@@ -10,7 +10,7 @@ import {
   AccordionHeader,
 } from "react-headless-accordion";
 import { v4 } from "uuid";
-import { getEmails } from "util/";
+import { getEmails, getValueOf } from "util/";
 import { useSingleLead } from "hooks";
 
 const ProfilePage = () => {
@@ -211,6 +211,47 @@ const ProfilePage = () => {
               </Accordion>
             ))}
           </div>
+        </div>
+
+        <div className="block_content my-4 px-8 rounded-md">
+          <h1 className="text-gray-800 font-bold text-2xl my-4">
+            Education Details
+          </h1>
+          {lead?.education && lead?.education?.length > 0 ? (
+            <div className="text-gray-600 sm:grid grid-cols-2 gap-4">
+              {lead?.education.map((education) => (
+                <Accordion className="my-8" key={v4()}>
+                  <AccordionItem>
+                    <AccordionHeader>
+                      <h3 className="font-semibold text-lg flex items-center">
+                        {education.degrees[0] || "Degree"}&nbsp;
+                        <HiChevronDown />
+                      </h3>
+                    </AccordionHeader>
+                    <AccordionBody>
+                      <div className="accordion-body">
+                        <p className="mb-1">School: {education.school.name}</p>
+                        <p className="mb-1">
+                          Degrees: {getValueOf(education.degrees)}
+                        </p>
+                        <p className="mb-1">
+                          Start Date: {education.start_date || "NA"}
+                        </p>
+                        <p className="mb-1">
+                          End Date: {education.end_date || "NA"}
+                        </p>
+                        <p className="mb-1">
+                          Summary: {education.summary || "NA"}
+                        </p>
+                      </div>
+                    </AccordionBody>
+                  </AccordionItem>
+                </Accordion>
+              ))}
+            </div>
+          ) : (
+            <p>NA</p>
+          )}
         </div>
 
         <div className="block_content my-4 px-8 rounded-md">
