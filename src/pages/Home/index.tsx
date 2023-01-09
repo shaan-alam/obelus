@@ -277,17 +277,17 @@ const Home: React.FC = () => {
             </label>
             <KeywordInput
               placeholder="Enter School Names"
-              keywords={state.schoolNames}
+              keywords={state.school_names}
               onSelect={(value) => {
                 setState((state) => ({
                   ...state,
-                  schoolNames: [...state.schoolNames, value],
+                  school_names: [...state.school_names, value],
                 }));
               }}
               onDelete={(value: string) => {
                 setState((state) => ({
                   ...state,
-                  schoolNames: state.schoolNames.filter(
+                  school_names: state.school_names.filter(
                     (school) => school !== value
                   ),
                 }));
@@ -300,17 +300,17 @@ const Home: React.FC = () => {
             </label>
             <KeywordInput
               placeholder="Enter Education"
-              keywords={state.education}
+              keywords={state.education_keywords}
               onSelect={(value) => {
                 setState((state) => ({
                   ...state,
-                  education: [...state.education, value],
+                  education_keywords: [...state.education_keywords, value],
                 }));
               }}
               onDelete={(value: string) => {
                 setState((state) => ({
                   ...state,
-                  education: state.education.filter(
+                  education_keywords: state.education_keywords.filter(
                     (school) => school !== value
                   ),
                 }));
@@ -344,7 +344,7 @@ const Home: React.FC = () => {
                 onClick={() => download()}
               >
                 {isDownloading && <img src={spinnerDark} alt="" />}
-                Download Data
+                Download all results (limit 10k)
               </a>
             </div>
           )}
