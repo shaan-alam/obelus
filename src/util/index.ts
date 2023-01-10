@@ -10,7 +10,6 @@
       }
     }
     
-    console.log(2)
     return str;
   };
 

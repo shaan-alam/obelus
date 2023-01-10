@@ -68,7 +68,7 @@ const ExportModal = ({
         return mutatedDocs;
       });
     } else {
-      docs = [...selectedDocuments];
+      docs = [...selectedDocuments.map((doc) => ({ ...doc._source }))];
     }
 
     if (exportChoice === "CSV") {
