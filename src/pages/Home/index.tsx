@@ -20,6 +20,7 @@ import {
   useDownloadLeads,
   useCompanyNames,
 } from "hooks";
+import { Slider } from "react-multi-thumb-slider";
 
 const Home: React.FC = () => {
   const client = useQueryClient();
@@ -217,7 +218,7 @@ const Home: React.FC = () => {
           </div>
           <div className="field my-4">
             <label htmlFor="" className="block mb-2 text-gray-800">
-              Keywords
+              Keywords (to be included)
             </label>
             <KeywordInput
               placeholder="Enter Keywords"
@@ -232,6 +233,29 @@ const Home: React.FC = () => {
                 setState((state) => ({
                   ...state,
                   keywords: state.keywords.filter(
+                    (keyword) => keyword !== value
+                  ),
+                }));
+              }}
+            />
+          </div>
+          <div className="field my-4">
+            <label htmlFor="" className="block mb-2 text-gray-800">
+              Keywords (not included)
+            </label>
+            <KeywordInput
+              placeholder="Enter Keywords"
+              keywords={state.keywordsNotIncluded}
+              onSelect={(value) => {
+                setState((state) => ({
+                  ...state,
+                  keywordsNotIncluded: [...state.keywordsNotIncluded, value],
+                }));
+              }}
+              onDelete={(value: string) => {
+                setState((state) => ({
+                  ...state,
+                  keywordsNotIncluded: state.keywordsNotIncluded.filter(
                     (keyword) => keyword !== value
                   ),
                 }));
@@ -316,6 +340,63 @@ const Home: React.FC = () => {
                 }));
               }}
             />
+          </div>
+          <div className="field my-4">
+            <label htmlFor="" className="block mb-2 text-gray-800">
+              Salary Range
+            </label>
+            <div className="range-container flex items-center">
+              <div className="range w-full mr-2">
+                <div className="range-slider">
+                  <span className="range-selected"></span>
+                </div>
+                <div className="range-input">
+                  <input
+                    type="range"
+                    className="min"
+                    min="0"
+                    max="500000"
+                    value={state.salaryRange.min}
+                    onChange={(e) =>
+                      setState({
+                        ...state,
+                        salaryRange: {
+                          ...state.salaryRange,
+                          min: +e.target.value,
+                        },
+                      })
+                    }
+                    step="50000"
+                  />
+                  <input
+                    type="range"
+                    className="max"
+                    min="500000"
+                    max="1000000"
+                    value={state.salaryRange.max}
+                    onChange={(e) =>
+                      setState({
+                        ...state,
+                        salaryRange: {
+                          ...state.salaryRange,
+                          max: +e.target.value,
+                        },
+                      })
+                    }
+                    step="50000"
+                  />
+                </div>
+              </div>
+              <p className="w-full">
+                {Intl.NumberFormat("en", { notation: "compact" }).format(
+                  state.salaryRange.min
+                )}
+                &nbsp; -&nbsp;
+                {Intl.NumberFormat("en", { notation: "compact" }).format(
+                  state.salaryRange.max
+                )}
+              </p>
+            </div>
           </div>
         </div>
         <div className="field my-4 flex justify-end">

@@ -9,7 +9,12 @@ export const initialState: IState = {
   countries: [],
   phone: "",
   school_names: [],
-  education_keywords: []
+  education_keywords: [],
+  keywordsNotIncluded: [],
+  salaryRange: {
+    min: 0,
+    max: 500001
+  }
 }
 
 
@@ -25,6 +30,11 @@ export interface IState {
   phone: string,
   school_names: string[],
   education_keywords: string[]
+  keywordsNotIncluded: string[]
+  salaryRange: {
+    min: number,
+    max: number
+  };
 }
 
 export type Error = { status: number, text: string } | null
