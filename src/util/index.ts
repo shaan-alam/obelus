@@ -1,3 +1,4 @@
+import _ from 'lodash'
 
  export const getValueOf = (str: string[] | string | undefined) => {
     if (str instanceof Array) {
@@ -24,6 +25,8 @@ export const checkObjectHasValues = <T,>(obj: T) => {
     Object.values(obj as { [s: string]: unknown }).filter((field) => {
       if (field instanceof Array && field.length > 0) {
         return field;
+      } else if (field instanceof Object) {
+        return !_.values(field).every(_.isEmpty);
       } else if (!(field instanceof Array) && field) {
         return field;
       }

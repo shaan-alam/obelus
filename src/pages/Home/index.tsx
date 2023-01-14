@@ -20,7 +20,6 @@ import {
   useDownloadLeads,
   useCompanyNames,
 } from "hooks";
-import { Slider } from "react-multi-thumb-slider";
 
 const Home: React.FC = () => {
   const client = useQueryClient();
@@ -88,7 +87,7 @@ const Home: React.FC = () => {
             Global Database Search
           </h1>
         </div>
-        <div className="grid grid-cols-3 gap-8">
+        <div className="md:grid grid-cols-3 gap-8">
           <div className="field my-4">
             <label htmlFor="" className="block mb-2 text-gray-800">
               First Name
@@ -356,7 +355,7 @@ const Home: React.FC = () => {
                     className="min"
                     min="0"
                     max="500000"
-                    value={state.salaryRange.min}
+                    value={state.salaryRange?.min as number}
                     onChange={(e) =>
                       setState({
                         ...state,
@@ -373,7 +372,7 @@ const Home: React.FC = () => {
                     className="max"
                     min="500000"
                     max="1000000"
-                    value={state.salaryRange.max}
+                    value={state.salaryRange.max as number}
                     onChange={(e) =>
                       setState({
                         ...state,
@@ -389,11 +388,11 @@ const Home: React.FC = () => {
               </div>
               <p className="w-full">
                 {Intl.NumberFormat("en", { notation: "compact" }).format(
-                  state.salaryRange.min
+                  state.salaryRange?.min as number
                 )}
                 &nbsp; -&nbsp;
                 {Intl.NumberFormat("en", { notation: "compact" }).format(
-                  state.salaryRange.max
+                  state.salaryRange?.max as number
                 )}
               </p>
             </div>
