@@ -8,7 +8,7 @@ interface IParameters extends IState {
 }
 
 export const api = axios.create({
-  baseURL: "https://project-x-ney5.onrender.com/",
+  baseURL: "https://obelus-dynamics-backend.onrender.com/",
 });
 
 export const getSearchResults = (parameters: IParameters) =>
